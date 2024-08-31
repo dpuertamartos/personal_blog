@@ -2,7 +2,6 @@
 
 MONGODB_URI = 'mongodb://localhost:27017/notes'
 DEV_MONGODB_URI = 'mongodb://localhost:27017/notes'
-TEST_MONGODB_URI = 'mongodb://localhost:27017/notes'
 PORT = 3001
 SECRET = 'string-used-for-auth'
 
@@ -11,10 +10,10 @@ SECRET = 'string-used-for-auth'
 docker build -t template-backend .
 docker run -p 3001:3001 --name template-backend-container template-backend
 
-# running postgres locally
+# running mongodb locally
 
-`docker run --name my_postgres_db -e POSTGRES_USER=myuser -e POSTGRES_PASSWORD=mypassword -e POSTGRES_DB=mydatabase -p 5432:5432 -v /path/to/local/directory:/var/lib/postgresql/data -d postgres`
+`docker run --name mongodb -d -p 27017:27017 mongo:6.0.4-focal`
 
 run backend with
 
-`npm run dev` to use `DEV_POSTGRES_URI` env variable
+`npm run dev` to use `DEV_MONGODB_URI` env variable
