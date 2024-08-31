@@ -11,8 +11,8 @@ mongoose.set('strictQuery', false)
 
 const blogsRouter = require('./controllers/blogs')
 const commentsRouter = require('./controllers/comments')
-const usersRouter = require('./controllers/mongodb/users')
-const loginRouter = require('./controllers/mongodb/login')
+const usersRouter = require('./controllers/users')
+const loginRouter = require('./controllers/login')
 
 logger.info('connecting to', config.MONGODB_URI)
 
