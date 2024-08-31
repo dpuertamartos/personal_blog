@@ -5,6 +5,7 @@ require('express-async-errors')
 const cors = require('cors')
 const middleware = require('./utils/middleware')
 const logger = require('./utils/logger')
+const init = require('./utils/init')
 const mongoose = require('mongoose')
 
 mongoose.set('strictQuery', false)
@@ -19,6 +20,8 @@ logger.info('connecting to', config.MONGODB_URI)
 mongoose.connect(config.MONGODB_URI)
   .then(() => {
     logger.info('connected to MongoDB')
+    init.initializeAdminUser()  // Initialize admin user after connecting to the database
+
   })
   .catch((error) => {
     logger.error('error connecting to MongoDB:', error.message)

@@ -4,6 +4,8 @@ MONGODB_URI = 'mongodb://localhost:27017/notes'
 DEV_MONGODB_URI = 'mongodb://localhost:27017/notes'
 PORT = 3001
 SECRET = 'string-used-for-auth'
+ADMIN_EMAIL = 'admin@admin.com'        
+ADMIN_PASSWORD = 'admin'      
 
 # docker
 
