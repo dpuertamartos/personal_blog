@@ -1,9 +1,0 @@
-Dockerfile.dev
-Dockerfile
-venv
-node_modules
-.gitignore
-.gptignore
-.dockerignore
-.env
-README.md
