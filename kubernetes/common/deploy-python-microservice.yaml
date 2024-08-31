@@ -1,0 +1,22 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: python-microservice-deployment
+  namespace: template
+  labels:
+    app: python-microservice
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: python-microservice
+  template:
+    metadata:
+      labels:
+        app: python-microservice
+    spec:
+      containers:
+      - name: python-microservice
+        image: dpuertamartos/template-python-microservice:latest
+        ports:
+        - containerPort: 5000
