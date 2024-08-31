@@ -28,11 +28,6 @@ spec:
             secretKeyRef:
               name: backend-secrets
               key: MONGODB_URI
-        - name: POSTGRES_URI
-          valueFrom:
-            secretKeyRef:
-              name: backend-secrets
-              key: POSTGRES_URI
         - name: PORT
           valueFrom:
             secretKeyRef:
