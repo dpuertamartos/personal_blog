@@ -10,6 +10,7 @@ import Profile from './views/Profile'
 import PrivacyPolicy from './views/PrivacyPolicy'
 import Home from './views/Home'
 import Notes from './views/Notes'
+import Blog from './views/Blog'
 import SmallScreenNavMenu from './components/common/DrawerSmallScreenNavigation'
 import TopMenu from './components/common/AppBar'
 
@@ -108,6 +109,7 @@ const App = () => {
 
       <Box component="main" sx={{ flexGrow: 1 }}>
         <Routes>
+          <Route path="/blogs" element={<Blog user={user} />} />
           <Route path="/notes" element={<Notes theme={theme} isLargeScreen={isLargeScreen} drawerOpen={drawerOpen} handleDrawerToggle={handleDrawerToggle} user={user} setErrorMessage={setErrorMessage}/>} />
           <Route path="/contact" element={<Contact />} />
           <Route path="/privacy_policy" element={<PrivacyPolicy />} />
