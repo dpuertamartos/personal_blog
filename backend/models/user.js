@@ -5,14 +5,19 @@ const userSchema = mongoose.Schema({
     type: String,
     required: true,
     unique: true,
-    match: /.+\@.+\..+/  // Regex for email validation
+    match: /.+\@.+\..+/,  // Regex for email validation
   },
   passwordHash: String,
-  notes: [
+  role: {
+    type: String,
+    enum: ['user', 'admin'], // Enum restricts the values for role
+    default: 'user', // Default role is 'user'
+  },
+  blogs: [
     {
       type: mongoose.Schema.Types.ObjectId,
-      ref: 'Note'
-    }
+      ref: 'Blog',
+    },
   ],
 })
 
@@ -22,7 +27,7 @@ userSchema.set('toJSON', {
     delete returnedObject._id
     delete returnedObject.__v
     delete returnedObject.passwordHash // the passwordHash should not be revealed
-  }
+  },
 })
 
 const User = mongoose.model('User', userSchema)

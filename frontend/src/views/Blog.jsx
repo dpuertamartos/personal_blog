@@ -41,7 +41,7 @@ const Blog = ({ user }) => {
   return (
     <Box>
       <Typography variant="h4">Blogs</Typography>
-      {user && (
+      {user && user.role === 'admin' && ( // Only show if user is an admin
         <form onSubmit={addBlog}>
           <TextField label="Title" name="title" value={newBlog.title} onChange={handleChange} fullWidth />
           <TextField label="Content" name="content" value={newBlog.content} onChange={handleChange} fullWidth multiline rows={4} />
