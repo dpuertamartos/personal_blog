@@ -18,6 +18,19 @@ blogsRouter.get('/', async (request, response) => {
   response.json(blogs)
 })
 
+// Get a specific blog post by ID
+blogsRouter.get('/:id', async (request, response) => {
+  const blog = await Blog.findById(request.params.id)
+    .populate('user', { email: 1 })
+    .populate('comments', { content: 1, date: 1, user: 1 })
+
+  if (blog) {
+    response.json(blog)
+  } else {
+    response.status(404).json({ error: 'blog not found' })
+  }
+})
+
 blogsRouter.post('/', async (request, response) => {
   const body = request.body
   const token = getTokenFrom(request)
@@ -45,6 +58,56 @@ blogsRouter.post('/', async (request, response) => {
   response.status(201).json(savedBlog)
 })
 
-// Additional CRUD operations (PUT, DELETE, etc.) here
+/// Update an existing blog (only for admins)
+blogsRouter.put('/:id', async (request, response) => {
+  const { title, content, author } = request.body
+  const token = getTokenFrom(request)
+  const decodedToken = jwt.verify(token, process.env.SECRET)
+
+  if (!decodedToken.id) {
+    return response.status(401).json({ error: 'token invalid' })
+  }
+
+  const user = await User.findById(decodedToken.id)
+  if (user.role !== 'admin') {
+    return response.status(403).json({ error: 'only admins can update blogs' })
+  }
+
+  const updatedBlog = await Blog.findByIdAndUpdate(
+    request.params.id,
+    { title, content, author },
+    { new: true, runValidators: true, context: 'query' }
+  )
+
+  if (updatedBlog) {
+    response.json(updatedBlog)
+  } else {
+    response.status(404).end()
+  }
+})
+
+// Delete a blog (only for admins)
+blogsRouter.delete('/:id', async (request, response) => {
+  const token = getTokenFrom(request)
+  const decodedToken = jwt.verify(token, process.env.SECRET)
+
+  if (!decodedToken.id) {
+    return response.status(401).json({ error: 'token invalid' })
+  }
+
+  const user = await User.findById(decodedToken.id)
+  if (user.role !== 'admin') {
+    return response.status(403).json({ error: 'only admins can delete blogs' })
+  }
+
+  const blogToDelete = await Blog.findById(request.params.id)
+  if (!blogToDelete) {
+    return response.status(404).json({ error: 'blog not found' })
+  }
+
+  await blogToDelete.remove()
+  response.status(204).end()
+})
+
 
 module.exports = blogsRouter

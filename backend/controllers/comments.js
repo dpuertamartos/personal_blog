@@ -11,6 +11,20 @@ const getTokenFrom = request => {
   return null
 }
 
+// Get a specific comment by ID
+commentsRouter.get('/:id', async (request, response) => {
+  const comment = await Comment.findById(request.params.id)
+    .populate('user', { email: 1 })
+    .populate('blog', { title: 1, author: 1 })
+
+  if (comment) {
+    response.json(comment)
+  } else {
+    response.status(404).json({ error: 'comment not found' })
+  }
+})
+
+
 commentsRouter.post('/', async (request, response) => {
   const body = request.body
   const token = getTokenFrom(request)
@@ -33,6 +47,40 @@ commentsRouter.post('/', async (request, response) => {
   response.status(201).json(savedComment)
 })
 
-// Additional CRUD operations (GET, DELETE, etc.) can be added here
+// Get all comments for a specific blog
+commentsRouter.get('/all/:blogId', async (request, response) => {
+  const blog = await Blog.findById(request.params.blogId).populate('comments', { content: 1, date: 1, user: 1 })
+
+  if (blog) {
+    response.json(blog.comments)
+  } else {
+    response.status(404).json({ error: 'blog not found' })
+  }
+})
+
+// Delete a comment (only by the comment's creator or an admin)
+commentsRouter.delete('/:id', async (request, response) => {
+  const token = getTokenFrom(request)
+  const decodedToken = jwt.verify(token, process.env.SECRET)
+
+  if (!decodedToken.id) {
+    return response.status(401).json({ error: 'token invalid' })
+  }
+
+  const commentToDelete = await Comment.findById(request.params.id)
+  if (!commentToDelete) {
+    return response.status(404).json({ error: 'comment not found' })
+  }
+
+  const user = await User.findById(decodedToken.id)
+
+  if (commentToDelete.user.toString() !== user.id && user.role !== 'admin') {
+    return response.status(403).json({ error: 'only the creator or an admin can delete comments' })
+  }
+
+  await commentToDelete.remove()
+  response.status(204).end()
+})
+
 
 module.exports = commentsRouter
