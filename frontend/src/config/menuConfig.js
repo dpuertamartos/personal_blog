@@ -2,20 +2,6 @@
 
 const menuItems = [
   {
-    label: 'Blogs',
-    path: '/blogs',
-    showInAppBar: true,
-    showInDrawer: true,
-    showSettingsIcon: false,
-  },
-  {
-    label: 'Notes',
-    path: '/notes',
-    showInAppBar: true,
-    showInDrawer: true,
-    showSettingsIcon: true, 
-  },
-  {
     label: 'Contact',
     path: '/contact',
     showInAppBar: true,
