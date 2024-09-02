@@ -3,6 +3,8 @@ const bcrypt = require('bcrypt')
 const loginRouter = require('express').Router()
 const User = require('../models/user')
 
+const TOKEN_EXPIRATION = 4 * 60 * 60
+
 loginRouter.post('/', async (request, response) => {
   const { email, password } = request.body
 
@@ -22,7 +24,7 @@ loginRouter.post('/', async (request, response) => {
     id: user._id,
   }
 
-  const token = jwt.sign(userForToken, process.env.SECRET)
+  const token = jwt.sign(userForToken, process.env.SECRET, { expiresIn: TOKEN_EXPIRATION })
 
   response.status(200).send({ token, email: user.email })
 })
