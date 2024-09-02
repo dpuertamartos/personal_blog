@@ -54,10 +54,9 @@ const LoginForm = ({ closeModal }) => {
     }
   }
 
-  const handleLogin = async (event) => {
-    event.preventDefault()  // Prevent the default form submission
+  const handleLogin = async (credentials) => {
     try {
-      await login({ email, password })  // Use login method from context
+      await login(credentials)  // Use login method from context
       setEmail('')
       setPassword('')
       setMessage({
