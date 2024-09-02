@@ -2,6 +2,13 @@
 
 const menuItems = [
   {
+    label: 'Home',
+    path: '/',
+    showInAppBar: false,
+    showInDrawer: false,
+    showSettingsIcon: true,
+  },
+  {
     label: 'Contact',
     path: '/contact',
     showInAppBar: true,

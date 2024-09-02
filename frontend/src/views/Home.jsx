@@ -1,10 +1,12 @@
-import { useState, useEffect } from 'react'
-import { Box, Typography, Button, TextField } from '@mui/material'
+import { useState, useEffect, useRef } from 'react'
+import { Grid, Box, Typography, Button, TextField } from '@mui/material'
 import blogService from '../services/blogs'
 import commentService from '../services/comments'
 import { useAuth } from '../context/AuthContext' // Import useAuth hook
+import ExtraDrawer from '../components/common/ExtraDrawer'
+import Togglable from '../components/common/Togglable'
 
-const Home = () => {
+const Home = ({ theme, isLargeScreen, handleDrawerToggle, drawerOpen, setErrorMessage }) => {
   const { user } = useAuth() // Destructure token from AuthContext
   const [blogs, setBlogs] = useState([])
   const [newBlog, setNewBlog] = useState({ title: '', content: '', author: '' })
@@ -13,6 +15,8 @@ const Home = () => {
   useEffect(() => {
     blogService.getAll().then(initialBlogs => setBlogs(initialBlogs))
   }, [])
+
+  const blogFormRef = useRef()
 
   const handleChange = (event) => {
     const { name, value } = event.target
@@ -27,6 +31,12 @@ const Home = () => {
       setNewBlog({ title: '', content: '', author: '' })
     } catch (error) {
       console.error('Failed to add blog', error)
+      setErrorMessage(
+        'Failed to add blog'
+      )
+      setTimeout(() => {
+        setErrorMessage(null)
+      }, 5000)
     }
   }
 
@@ -37,20 +47,41 @@ const Home = () => {
       setNewComment('')
     } catch (error) {
       console.error('Failed to add comment', error)
+      setErrorMessage(
+        'Failed to add comment'
+      )
+      setTimeout(() => {
+        setErrorMessage(null)
+      }, 5000)
     }
   }
 
   return (
     <Box>
+      <Grid>
+        {!isLargeScreen &&
+        <ExtraDrawer
+          theme={theme}
+          handleDrawerToggle={handleDrawerToggle}
+          drawerOpen={drawerOpen}
+          drawerContent={
+            <Typography variant="h6" component="div">
+            Hello Drawer!
+            </Typography>
+          }
+        />}
+      </Grid>
       <Typography variant="h4">Blogs</Typography>
-      {user && user.role === 'admin' && (
-        <form onSubmit={addBlog}>
-          <TextField label="Title" name="title" value={newBlog.title} onChange={handleChange} fullWidth />
-          <TextField label="Content" name="content" value={newBlog.content} onChange={handleChange} fullWidth multiline rows={4} />
-          <TextField label="Author" name="author" value={newBlog.author} onChange={handleChange} fullWidth />
-          <Button type="submit" variant="contained" color="primary">Add Blog</Button>
-        </form>
-      )}
+      {user && user.role === 'admin' && <div>
+        <Togglable buttonLabel='New blog' ref={blogFormRef}>
+          <form onSubmit={addBlog}>
+            <TextField label="Title" name="title" value={newBlog.title} onChange={handleChange} fullWidth />
+            <TextField label="Content" name="content" value={newBlog.content} onChange={handleChange} fullWidth multiline rows={4} />
+            <TextField label="Author" name="author" value={newBlog.author} onChange={handleChange} fullWidth />
+            <Button type="submit" variant="contained" color="primary">Add Blog</Button>
+          </form>
+        </Togglable>
+      </div>}
       {blogs.map(blog => (
         <Box key={blog.id} mt={2}>
           <Typography variant="h5">{blog.title}</Typography>
