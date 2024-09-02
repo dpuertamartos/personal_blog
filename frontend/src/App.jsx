@@ -14,11 +14,10 @@ import { useAuth } from './context/AuthContext' // Import useAuth
 
 const App = () => {
   const [errorMessage, setErrorMessage] = useState(null)
-  const [loginVisible, setLoginVisible] = useState(false)
   const [drawerOpen, setDrawerOpen] = useState(false)
   const [menuOpen, setMenuOpen] = useState(false)
 
-  const { user, logout } = useAuth() // Destructure user and logout from useAuth
+  const { user, logout, loginVisible, setLoginVisible } = useAuth() // Use the new context values
   const theme = useTheme()
   const isLargeScreen = useMediaQuery(theme.breakpoints.up('md'))
   const location = useLocation()
@@ -27,21 +26,11 @@ const App = () => {
     window.scrollTo(0, 0)
   }, [location])
 
-  const handleDrawerToggle = () => {
-    setDrawerOpen(!drawerOpen)
-  }
+  const handleDrawerToggle = () => setDrawerOpen(!drawerOpen)
+  const handleMenuToggle = () => setMenuOpen(!menuOpen)
 
-  const handleMenuToggle = () => {
-    setMenuOpen(!menuOpen)
-  }
-
-  const handleLoginOpen = () => {
-    setLoginVisible(true)
-  }
-
-  const handleLoginClose = () => {
-    setLoginVisible(false)
-  }
+  const handleLoginOpen = () => setLoginVisible(true)
+  const handleLoginClose = () => setLoginVisible(false)
 
   const linkStyle = {
     fontWeight: 600,
