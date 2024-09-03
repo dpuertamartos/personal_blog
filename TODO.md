@@ -1,5 +1,5 @@
 ### Things to add
 
-1. Delete blogs / Modify blogs
-2. Delete comments / Modify comments
-3. Show comments author
+1. test template with postgres for edit/remove blog, edit/remove comments, show comments email
+2. Refactor Home.jsx 
+3. improve aesthetic
