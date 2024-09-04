@@ -4,6 +4,7 @@ import EditBlogModal from './EditBlogModal'
 import blogService from '../../services/blogs'
 import CommentList from '../comments/CommentList'
 import Togglable from '../common/Togglable'
+import DOMPurify from 'dompurify'
 
 const Blog = ({ blog, user, setBlogs, setErrorMessage }) => {
   const [editingBlog, setEditingBlog] = useState(null)
@@ -33,7 +34,7 @@ const Blog = ({ blog, user, setBlogs, setErrorMessage }) => {
   return (
     <Box mt={2}>
       <Typography variant="h5">{blog.title}</Typography>
-      <Typography variant="body1">{blog.content}</Typography>
+      <Typography variant="body1" dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(blog.content) }} />
       <Typography variant="body2">By {blog.author}</Typography>
 
       {/* Toggle to display comments */}

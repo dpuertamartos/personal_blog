@@ -1,6 +1,7 @@
 import { useState, useRef } from 'react'
 import { Button, TextField } from '@mui/material'
-
+import ReactQuill from 'react-quill' // Import Quill
+import 'react-quill/dist/quill.snow.css' // Import styles for Quill
 import blogService from '../../services/blogs'
 import Togglable from '../common/Togglable'
 
@@ -32,7 +33,7 @@ const AddBlog = ({ blogs, setBlogs, setErrorMessage }) => {
     <Togglable buttonLabel='New blog' ref={blogFormRef}>
       <form onSubmit={addBlog}>
         <TextField label="Title" name="title" value={newBlog.title} onChange={handleChange} fullWidth />
-        <TextField label="Content" name="content" value={newBlog.content} onChange={handleChange} fullWidth multiline rows={4} />
+        <ReactQuill value={newBlog.content} onChange={(content) => setNewBlog({ ...newBlog, content })} />
         <TextField label="Author" name="author" value={newBlog.author} onChange={handleChange} fullWidth />
         <Button type="submit" variant="contained" color="primary">Add Blog</Button>
       </form>
