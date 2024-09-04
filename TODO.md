@@ -1,5 +1,5 @@
 ### Things to add
 
-1. test template with postgres for edit/remove blog, edit/remove comments, show comments email
-2. Refactor Home.jsx 
-3. improve aesthetic
+1. Refactor Home.jsx 
+2. Add formating to text
+3. Improve aesthetics
