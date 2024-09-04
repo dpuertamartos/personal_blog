@@ -1,9 +1,12 @@
 import { useState, useRef, useCallback, useMemo } from 'react'
 import { Button, TextField } from '@mui/material'
-import ReactQuill from 'react-quill' // Import Quill
+import ReactQuill, { Quill } from 'react-quill' // Import Quill
 import 'react-quill/dist/quill.snow.css' // Import Quill styles
 import blogService from '../../services/blogs'
 import Togglable from '../common/Togglable'
+import ResizeImage from 'quill-resize-image' // Import the ResizeImage module
+
+Quill.register('modules/resizeImage', ResizeImage) // Register the module with Quill
 
 const AddBlog = ({ blogs, setBlogs, setErrorMessage }) => {
   const [newBlog, setNewBlog] = useState({ title: '', content: '', author: '' })
@@ -34,28 +37,43 @@ const AddBlog = ({ blogs, setBlogs, setErrorMessage }) => {
     tooltip.textbox.placeholder = 'Embed URL'
   }, [])
 
-  const modules = useMemo(() => ({
-    toolbar: {
-      container: [
-        [{ header: '1' }, { header: '2' }, { font: [] }],
-        [{ size: [] }],
-        ['bold', 'italic', 'underline', 'strike', 'blockquote'],
-        [{ list: 'ordered' }, { list: 'bullet' }],
-        ['link', 'image', 'video'],
-        ['clean'], // remove formatting button
-        [{ color: [] }, { background: [] }], // dropdown with defaults from theme
-        [{ align: [] }] // Custom button for the image handler
-      ],
-      handlers: {
-        image: imageHandler, // Use the updated image handler
+  const modules = useMemo(
+    () => ({
+      toolbar: {
+        container: [
+          [{ header: '1' }, { header: '2' }, { font: [] }],
+          [{ size: [] }],
+          ['bold', 'italic', 'underline', 'strike', 'blockquote'],
+          [{ list: 'ordered' }, { list: 'bullet' }],
+          ['link', 'image', 'video'],
+          ['clean'], // remove formatting button
+          [{ color: [] }, { background: [] }], // dropdown with defaults from theme
+          [{ align: [] }] // Custom button for the image handler
+        ],
+        handlers: {
+          image: imageHandler, // Use the updated image handler
+        },
       },
-    },
-    history: {
-      delay: 500,
-      maxStack: 100,
-      userOnly: true,
-    },
-  }), [imageHandler])
+      history: {
+        delay: 500,
+        maxStack: 100,
+        userOnly: true,
+      },
+      resizeImage: { // Add resizeImage module configuration
+        modules: ['ResizeImage'], // List of modules to include (only 'ResizeImage' in this case)
+        handleStyles: {
+          backgroundColor: 'black',
+          border: 'none',
+          color: 'white',
+        },
+        minWidth: 20,
+        minHeight: 20,
+        maxWidth: 800,
+        maxHeight: 800,
+      },
+    }),
+    [imageHandler]
+  )
 
   const formats = [
     'header', 'font', 'size',
