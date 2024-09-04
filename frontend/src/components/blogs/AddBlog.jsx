@@ -1,8 +1,9 @@
 import { useState, useRef } from 'react'
-import { Button, TextField } from '@mui/material'
+import { Button, TextField, Paper, Typography, Box } from '@mui/material'
+import { motion } from 'framer-motion'
 import blogService from '../../services/blogs'
 import Togglable from '../common/Togglable'
-import QuillEditor from '../common/QuillEditor' // Import the new QuillEditor component
+import QuillEditor from '../common/QuillEditor'
 
 const AddBlog = ({ blogs, setBlogs, setErrorMessage }) => {
   const [newBlog, setNewBlog] = useState({ title: '', content: '', author: '' })
@@ -30,17 +31,40 @@ const AddBlog = ({ blogs, setBlogs, setErrorMessage }) => {
 
   return (
     <Togglable buttonLabel="New blog" ref={blogFormRef}>
-      <form onSubmit={addBlog}>
-        <TextField label="Title" name="title" value={newBlog.title} onChange={handleChange} fullWidth />
-        <QuillEditor // Use the reusable QuillEditor component
-          value={newBlog.content}
-          onChange={(content) => setNewBlog({ ...newBlog, content })}
-        />
-        <TextField label="Author" name="author" value={newBlog.author} onChange={handleChange} fullWidth />
-        <Button type="submit" variant="contained" color="primary">
-          Add Blog
-        </Button>
-      </form>
+      <Paper elevation={3} sx={{ padding: 3, marginTop: 2 }}>
+        <Typography variant="h6" gutterBottom>
+          Add a New Blog
+        </Typography>
+        <form onSubmit={addBlog}>
+          <TextField
+            label="Title"
+            name="title"
+            value={newBlog.title}
+            onChange={handleChange}
+            fullWidth
+            margin="normal"
+            component={motion.div}
+            whileFocus={{ scale: 1.05 }}
+          />
+          <QuillEditor
+            value={newBlog.content}
+            onChange={(content) => setNewBlog({ ...newBlog, content })}
+          />
+          <TextField
+            label="Author"
+            name="author"
+            value={newBlog.author}
+            onChange={handleChange}
+            fullWidth
+            margin="normal"
+            component={motion.div}
+            whileFocus={{ scale: 1.05 }}
+          />
+          <Button type="submit" variant="contained" color="primary" sx={{ mt: 2 }}>
+            Add Blog
+          </Button>
+        </form>
+      </Paper>
     </Togglable>
   )
 }

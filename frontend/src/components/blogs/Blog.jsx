@@ -1,5 +1,6 @@
 import { useState } from 'react'
-import { Box, Typography, Button } from '@mui/material'
+import { Box, Typography, Button, Card, CardContent, CardActions } from '@mui/material'
+import { motion } from 'framer-motion'
 import EditBlogModal from './EditBlogModal'
 import blogService from '../../services/blogs'
 import CommentList from '../comments/CommentList'
@@ -30,34 +31,35 @@ const Blog = ({ blog, user, setBlogs, setErrorMessage }) => {
     }
   }
 
-
   return (
-    <Box mt={2}>
-      <Typography variant="h5">{blog.title}</Typography>
-      <Typography variant="body1" dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(blog.content) }} />
-      <Typography variant="body2">By {blog.author}</Typography>
+    <>
+      <Card sx={{ marginTop: 2 }}>
+        <CardContent>
+          <Typography variant="h5" gutterBottom>
+            {blog.title}
+          </Typography>
+          <Typography variant="body1" dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(blog.content) }} />
+          <Typography variant="body2" color="textSecondary" gutterBottom>
+            By {blog.author}
+          </Typography>
+        </CardContent>
+        <CardActions>
+          <Togglable buttonLabel="View Comments">
+            <CommentList blog={blog} user={user} setErrorMessage={setErrorMessage} />
+          </Togglable>
+          {user && user.role === 'admin' && (
+            <Box sx={{ marginLeft: 'auto' }}>
+              <Button variant="outlined" color="primary" onClick={() => handleEdit(blog)}>
+                Edit
+              </Button>
+              <Button variant="outlined" color="secondary" onClick={() => handleDelete(blog.id)}>
+                Delete
+              </Button>
+            </Box>
+          )}
+        </CardActions>
+      </Card>
 
-      {/* Toggle to display comments */}
-      <Togglable buttonLabel="View Comments">
-        <CommentList
-          blog={blog}
-          user={user}
-          setErrorMessage={setErrorMessage}
-        />
-      </Togglable>
-
-      {user && user.role === 'admin' && (
-        <Box mt={2}>
-          <Button variant="outlined" color="primary" onClick={() => handleEdit(blog)}>
-            Edit
-          </Button>
-          <Button variant="outlined" color="secondary" onClick={() => handleDelete(blog.id)}>
-            Delete
-          </Button>
-        </Box>
-      )}
-
-      {/* Modals */}
       <EditBlogModal
         open={editModalOpen}
         blog={editingBlog}
@@ -65,7 +67,7 @@ const Blog = ({ blog, user, setBlogs, setErrorMessage }) => {
         setErrorMessage={setErrorMessage}
         onClose={() => setEditModalOpen(false)}
       />
-    </Box>
+    </>
   )
 }
 

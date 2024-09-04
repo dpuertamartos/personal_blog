@@ -1,11 +1,10 @@
 import { useState, useImperativeHandle, forwardRef } from 'react'
 import PropTypes from 'prop-types'
+import { Button, Box, Paper } from '@mui/material'
+import { motion } from 'framer-motion'
 
 const Togglable = forwardRef((props, ref) => {
   const [visible, setVisible] = useState(false)
-
-  const hideWhenVisible = { display: visible ? 'none' : '' }
-  const showWhenVisible = { display: visible ? '' : 'none' }
 
   const toggleVisibility = () => {
     setVisible(!visible)
@@ -18,23 +17,34 @@ const Togglable = forwardRef((props, ref) => {
   })
 
   return (
-    <div>
-      <div style={hideWhenVisible}>
-        <button onClick={toggleVisibility}>{props.buttonLabel}</button>
-      </div>
-      <div style={showWhenVisible}>
+    <Box sx={{ width: '100%' }}>
+      {!visible && (
+        <Button variant="contained" color="primary" onClick={toggleVisibility}>
+          {props.buttonLabel}
+        </Button>
+      )}
 
-        {props.children}
-        <button onClick={toggleVisibility}>cancel</button>
-      </div>
-    </div>
+      {visible && (
+        <motion.div
+          initial={{ opacity: 0, y: -20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.3 }}
+        >
+          {props.children}
+          <Button variant="outlined" color="secondary" onClick={toggleVisibility} sx={{ mt: 2 }}>
+              Cancel
+          </Button>
+        </motion.div>
+      )}
+    </Box>
   )
 })
 
 Togglable.displayName = 'Togglable'
 
 Togglable.propTypes = {
-  buttonLabel: PropTypes.string.isRequired
+  buttonLabel: PropTypes.string.isRequired,
+  children: PropTypes.node.isRequired,
 }
 
 export default Togglable

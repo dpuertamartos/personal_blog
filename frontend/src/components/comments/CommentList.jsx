@@ -1,12 +1,13 @@
 import { useState, useEffect } from 'react'
-import { Box, Typography, Button } from '@mui/material'
+import { Box, Typography, Button, Paper } from '@mui/material'
+import { motion } from 'framer-motion'
 import EditCommentModal from './EditCommentModal'
 import commentService from '../../services/comments'
 import AddComment from './AddComment'
 import DOMPurify from 'dompurify'
 
 const CommentList = ({ blog, user, setErrorMessage }) => {
-  const [comments, setComments] = useState([]) // Local state for comments
+  const [comments, setComments] = useState([])
   const [newComment, setNewComment] = useState('')
   const [editCommentModalOpen, setEditCommentModalOpen] = useState(false)
   const [editingComment, setEditingComment] = useState(null)
@@ -25,7 +26,7 @@ const CommentList = ({ blog, user, setErrorMessage }) => {
   }
 
   useEffect(() => {
-    fetchComments() // Fetch comments when component mounts
+    fetchComments()
   }, [])
 
   const handleAddComment = async () => {
@@ -81,7 +82,7 @@ const CommentList = ({ blog, user, setErrorMessage }) => {
   }
 
   return (
-    <Box>
+    <Box sx={{ width: '100%' }}>
       <Typography variant="subtitle2" mt={2}>
         Comments:
       </Typography>
@@ -93,20 +94,30 @@ const CommentList = ({ blog, user, setErrorMessage }) => {
         />
       )}
       {comments.map((comment) => (
-        <Box key={comment.id} ml={2}>
-          <Typography variant="body1" dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(comment.content) }} />
-          <Typography variant="caption">By {comment.user.email}</Typography>
-          {(user && (user.role === 'admin' || comment.user.email === user.email)) && (
-            <Box mt={1}>
-              <Button variant="outlined" color="primary" onClick={() => handleEditComment(comment)}>
-                Edit
-              </Button>
-              <Button variant="outlined" color="secondary" onClick={() => handleDeleteComment(comment.id)}>
-                Delete
-              </Button>
-            </Box>
-          )}
-        </Box>
+        <motion.div 
+          key={comment.id} 
+          initial={{ opacity: 0 }} 
+          animate={{ opacity: 1 }} 
+          transition={{ duration: 0.3 }} 
+          style={{ width: '100%' }}
+        >
+          <Paper elevation={1} sx={{ padding: 2, marginTop: 2, width: '100%' }}>
+            <Typography variant="body1" dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(comment.content) }} />
+            <Typography variant="caption" color="textSecondary">
+              By {comment.user.email}
+            </Typography>
+            {(user && (user.role === 'admin' || comment.user.email === user.email)) && (
+              <Box mt={1} sx={{ display: 'flex', gap: 1 }}>
+                <Button variant="outlined" color="primary" onClick={() => handleEditComment(comment)}>
+                  Edit
+                </Button>
+                <Button variant="outlined" color="secondary" onClick={() => handleDeleteComment(comment.id)}>
+                  Delete
+                </Button>
+              </Box>
+            )}
+          </Paper>
+        </motion.div>
       ))}
       {editingComment && (
         <EditCommentModal
