@@ -8,6 +8,7 @@ const AddComment = ({ newComment, setNewComment, handleAddComment }) => {
       <QuillEditor
         value={newComment}
         onChange={setNewComment}
+        allowImages={false}
       />
       <Button onClick={handleAddComment} variant="outlined" color="primary" sx={{ mt: 2 }}>
         Add Comment

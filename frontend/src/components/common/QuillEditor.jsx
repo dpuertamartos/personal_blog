@@ -6,7 +6,7 @@ import ResizeImage from 'quill-resize-image' // Import the ResizeImage module
 // Register the ResizeImage module with Quill
 Quill.register('modules/resizeImage', ResizeImage)
 
-const QuillEditor = ({ value, onChange }) => {
+const QuillEditor = ({ value, onChange, allowImages = true }) => { // Add allowImages prop with default value
   const quillRef = useRef(null) // Initialize the quillRef with useRef
 
   const imageHandler = useCallback(() => {
@@ -33,29 +33,34 @@ const QuillEditor = ({ value, onChange }) => {
     tooltip.textbox.placeholder = 'Embed URL'
   }, [])
 
-  const modules = useMemo(
-    () => ({
+  const modules = useMemo(() => {
+    const toolbarOptions = [
+      [{ header: '1' }, { header: '2' }, { font: [] }],
+      [{ size: [] }],
+      ['bold', 'italic', 'underline', 'strike'],
+      ['blockquote', 'code-block'],
+      [{ list: 'ordered' }, { list: 'bullet' }],
+      ['link'],
+      ['clean'], // remove formatting button
+      [{ color: [] }, { background: [] }], // dropdown with defaults from theme
+      [{ align: [] }] // Custom button for the image handler
+    ]
+
+    if (allowImages) {
+      toolbarOptions.splice(4, 0, ['image']) // Add image if allowImages is true
+    }
+
+    return {
       toolbar: {
-        container: [
-          [{ header: '1' }, { header: '2' }, { font: [] }],
-          [{ size: [] }],
-          ['bold', 'italic', 'underline', 'strike', 'blockquote'],
-          [{ list: 'ordered' }, { list: 'bullet' }],
-          ['link', 'image', 'video'],
-          ['clean'], // remove formatting button
-          [{ color: [] }, { background: [] }], // dropdown with defaults from theme
-          [{ align: [] }] // Custom button for the image handler
-        ],
-        handlers: {
-          image: imageHandler, // Use the updated image handler
-        },
+        container: toolbarOptions,
+        handlers: allowImages ? { image: imageHandler } : {}, // Use the image handler if images are allowed
       },
       history: {
         delay: 500,
         maxStack: 100,
         userOnly: true,
       },
-      resizeImage: { // Add resizeImage module configuration
+      resizeImage: allowImages ? { // Add resizeImage module configuration if images are allowed
         modules: ['ResizeImage'], // List of modules to include (only 'ResizeImage' in this case)
         handleStyles: {
           backgroundColor: 'black',
@@ -66,17 +71,21 @@ const QuillEditor = ({ value, onChange }) => {
         minHeight: 20,
         maxWidth: 800,
         maxHeight: 800,
-      },
-    }),
-    [imageHandler]
-  )
+      } : {},
+    }
+  }, [imageHandler, allowImages])
 
   const formats = [
     'header', 'font', 'size',
-    'bold', 'italic', 'underline', 'strike', 'blockquote',
-    'list', 'bullet', 'link', 'image', 'video',
+    'bold', 'italic', 'underline', 'strike',
+    'blockquote', 'code-block',
+    'list', 'bullet', 'link',
     'color', 'background', 'align',
   ]
+
+  if (allowImages) {
+    formats.push('image') // Add image formats if images are allowed
+  }
 
   return (
     <ReactQuill

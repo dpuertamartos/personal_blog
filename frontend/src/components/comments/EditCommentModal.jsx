@@ -37,6 +37,7 @@ const EditCommentModal = ({ open, editingComment, setEditingComment, handleUpdat
           <QuillEditor
             value={editingComment.content}
             onChange={handleCommentEditChange} // Updated onChange to handle Quill content
+            allowImages={false}
           />
           <Button type="submit" variant="contained" color="primary" sx={{ mt: 2 }}>
             Save Changes

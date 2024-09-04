@@ -1,4 +1,3 @@
 ### Things to add
 
-1. Add formating to text
-2. Improve aesthetics
+1. Improve aesthetics
