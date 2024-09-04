@@ -1,6 +1,11 @@
 const config = require('./utils/config')
 const express = require('express')
+const bodyParser = require('body-parser');
 const app = express()
+// Increase the payload size limit to 10MB, for example
+app.use(bodyParser.json({ limit: '10mb' }))
+app.use(bodyParser.urlencoded({ limit: '10mb', extended: true }))
+
 require('express-async-errors')
 const cors = require('cors')
 const middleware = require('./utils/middleware')
