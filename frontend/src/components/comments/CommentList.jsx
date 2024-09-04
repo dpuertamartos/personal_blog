@@ -3,6 +3,7 @@ import { Box, Typography, Button } from '@mui/material'
 import EditCommentModal from './EditCommentModal'
 import commentService from '../../services/comments'
 import AddComment from './AddComment'
+import DOMPurify from 'dompurify'
 
 const CommentList = ({ blog, user, setErrorMessage }) => {
   const [comments, setComments] = useState([]) // Local state for comments
@@ -93,7 +94,7 @@ const CommentList = ({ blog, user, setErrorMessage }) => {
       )}
       {comments.map((comment) => (
         <Box key={comment.id} ml={2}>
-          <Typography variant="body2">{comment.content}</Typography>
+          <Typography variant="body1" dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(comment.content) }} />
           <Typography variant="caption">By {comment.user.email}</Typography>
           {(user && (user.role === 'admin' || comment.user.email === user.email)) && (
             <Box mt={1}>
