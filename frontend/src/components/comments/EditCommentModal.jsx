@@ -1,17 +1,17 @@
-import { Box, Modal, Typography, TextField, Button } from '@mui/material'
+import { Box, Modal, Typography, Button } from '@mui/material'
+import QuillEditor from '../common/QuillEditor'
 
 const EditCommentModal = ({ open, editingComment, setEditingComment, handleUpdateComment, onClose }) => {
-  const handleCommentEditChange = (event) => {
-    const { value } = event.target
+  const handleCommentEditChange = (content) => {
     setEditingComment((prevComment) => ({
       ...prevComment,
-      content: value,
+      content,
     }))
   }
 
   const handleSubmit = (event) => {
-    event.preventDefault()  // Prevent default form submission
-    handleUpdateComment(editingComment)  // Pass the updated comment object
+    event.preventDefault()
+    handleUpdateComment(editingComment)
   }
 
   return (
@@ -34,13 +34,9 @@ const EditCommentModal = ({ open, editingComment, setEditingComment, handleUpdat
           Edit Comment
         </Typography>
         <form onSubmit={handleSubmit}>
-          <TextField
-            label="Content"
-            name="content"
+          <QuillEditor
             value={editingComment.content}
-            onChange={handleCommentEditChange}
-            fullWidth
-            margin="normal"
+            onChange={handleCommentEditChange} // Updated onChange to handle Quill content
           />
           <Button type="submit" variant="contained" color="primary" sx={{ mt: 2 }}>
             Save Changes

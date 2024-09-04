@@ -1,12 +1,13 @@
 import { useState, useEffect } from 'react'
 import { Box, Modal, Typography, TextField, Button } from '@mui/material'
 import blogService from '../../services/blogs'
+import QuillEditor from '../common/QuillEditor'
 
 const EditBlogModal = ({ open, blog, setBlogs, setErrorMessage, onClose }) => {
   const [editingBlog, setEditingBlog] = useState(blog)
 
   useEffect(() => {
-    setEditingBlog(blog)  // Update state when blog prop changes
+    setEditingBlog(blog)
   }, [blog])
 
   const handleEditChange = (event) => {
@@ -37,7 +38,6 @@ const EditBlogModal = ({ open, blog, setBlogs, setErrorMessage, onClose }) => {
     }
   }
 
-  // Conditional rendering if blog is not defined
   if (!editingBlog) return null
 
   return (
@@ -68,15 +68,9 @@ const EditBlogModal = ({ open, blog, setBlogs, setErrorMessage, onClose }) => {
             fullWidth
             margin="normal"
           />
-          <TextField
-            label="Content"
-            name="content"
+          <QuillEditor
             value={editingBlog.content || ''}
-            onChange={handleEditChange}
-            fullWidth
-            multiline
-            rows={4}
-            margin="normal"
+            onChange={(content) => setEditingBlog({ ...editingBlog, content })}
           />
           <TextField
             label="Author"
