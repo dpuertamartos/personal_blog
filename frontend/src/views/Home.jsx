@@ -13,7 +13,7 @@ const Home = ({ theme, isLargeScreen, handleDrawerToggle, drawerOpen, setErrorMe
           drawerContent={<Typography variant="h6">Hello Drawer!</Typography>}
         />
       )}
-      <BlogList setErrorMessage={setErrorMessage} />
+      <BlogList setErrorMessage={setErrorMessage} theme={theme}/>
     </Box>
   )
 }
