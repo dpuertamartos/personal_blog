@@ -44,35 +44,21 @@ const Blog = ({ blog, user, setBlogs, setErrorMessage }) => {
           </Typography>
         </CardContent>
         <Divider />
-        <CardActions>
-          <Grid container spacing={2} sx={{ marginLeft: 'auto' }}>
-            {user && user.role === 'admin' && (
-              <Box>
-                <Box>
-                  <Grid item xs={12}>
-                    <Grid container spacing={1}>
-                      <Grid item>
-                        <Button variant="outlined" color="primary" fullWidth onClick={() => handleEdit(blog)}>
-                      Edit Post
-                        </Button>
-                      </Grid>
-                      <Grid item>
-                        <Button variant="outlined" color="secondary" fullWidth onClick={() => handleDelete(blog.id)}>
-                      Delete Post
-                        </Button>
-                      </Grid>
-                    </Grid>
-                  </Grid>
-                </Box>
-                <Divider />
-              </Box>
-            )}
-            <Grid item xs={12}>
-              <Togglable buttonLabel="View Comments" buttonLabelClose="Close Comments">
-                <CommentList blog={blog} user={user} setErrorMessage={setErrorMessage} />
-              </Togglable>
-            </Grid>
-          </Grid>
+        <CardActions sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap' }}>
+          {user && user.role === 'admin' && (
+            <Box sx={{ display: 'flex', gap: 2, mb: 2, mt: 2 }}>
+              <Button variant="outlined" color="primary" onClick={() => handleEdit(blog)}>
+                Edit Post
+              </Button>
+              <Button variant="outlined" color="secondary" onClick={() => handleDelete(blog.id)}>
+                Delete Post
+              </Button>
+              <Divider />
+            </Box>
+          )}
+          <Togglable buttonLabel="View Comments" buttonLabelClose="Close Comments">
+            <CommentList blog={blog} user={user} setErrorMessage={setErrorMessage} />
+          </Togglable>
         </CardActions>
       </Card>
 
