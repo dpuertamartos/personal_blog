@@ -7,7 +7,7 @@ import menuItems from '../../config/menuConfig' // Import the menu configuration
 const SmallScreenNavMenu = ({ location, theme, linkStyle, menuOpen, handleMenuToggle, user, onLogin, onLogout }) => {
   const drawerItemStyle = (path) => ({
     ...linkStyle,
-    color: location.pathname === path ? theme.palette.primary.main : 'inherit',
+    color: location.pathname === path ? theme.palette.primary.main : theme.palette.text.primary,
     '&:hover': {
       backgroundColor: theme.palette.action.hover,
     },

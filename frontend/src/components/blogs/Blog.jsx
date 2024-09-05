@@ -48,20 +48,22 @@ const Blog = ({ blog, user, setBlogs, setErrorMessage }) => {
           <Grid container spacing={2} sx={{ marginLeft: 'auto' }}>
             {user && user.role === 'admin' && (
               <Box>
-                <Grid item xs={12}>
-                  <Grid container spacing={1}>
-                    <Grid item xs={3}>
-                      <Button variant="outlined" color="primary" fullWidth onClick={() => handleEdit(blog)}>
+                <Box>
+                  <Grid item xs={12}>
+                    <Grid container spacing={1}>
+                      <Grid item>
+                        <Button variant="outlined" color="primary" fullWidth onClick={() => handleEdit(blog)}>
                       Edit Post
-                      </Button>
-                    </Grid>
-                    <Grid item xs={3}>
-                      <Button variant="outlined" color="secondary" fullWidth onClick={() => handleDelete(blog.id)}>
+                        </Button>
+                      </Grid>
+                      <Grid item>
+                        <Button variant="outlined" color="secondary" fullWidth onClick={() => handleDelete(blog.id)}>
                       Delete Post
-                      </Button>
+                        </Button>
+                      </Grid>
                     </Grid>
                   </Grid>
-                </Grid>
+                </Box>
                 <Divider />
               </Box>
             )}

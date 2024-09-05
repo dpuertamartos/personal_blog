@@ -10,7 +10,7 @@ import menuItems from '../../config/menuConfig' // Import the menu configuration
 const TopMenu = ({ location, linkStyle, theme, isLargeScreen, handleDrawerToggle, handleMenuToggle, user, onLogin }) => {
 
   const appBarStyle = {
-    backgroundColor: 'rgba(255, 255, 255, 0.7)',
+    backgroundColor: 'rgba(0, 0, 0, 0.85)', // Darker background for better contrast
     color: theme.palette.text.primary,
     boxShadow: 'none',
     backdropFilter: 'blur(10px)',

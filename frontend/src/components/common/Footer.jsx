@@ -1,4 +1,4 @@
-import { Box, Typography, useTheme } from '@mui/material'
+import { Box, Typography ,useTheme } from '@mui/material'
 
 const Footer = () => {
   const theme = useTheme()
@@ -6,13 +6,13 @@ const Footer = () => {
 
   return (
     <Box sx={{
-      bgcolor: 'background.default',  // You can use a shade of your theme's background color
-      color: 'text.secondary',
-      px: 2,  // Horizontal padding
-      py: 3,  // Vertical padding
+      bgcolor: theme.palette.background.paper,  // Use the paper background from the theme
+      color: theme.palette.text.secondary,  // Use the secondary text color
+      px: 2,
+      py: 3,
       textAlign: 'center',
-      borderTop: `1px solid ${theme.palette.divider}`,  // A top border for a subtle separation from the content
-      mt: 'auto',  // Push footer to the bottom of the layout
+      borderTop: `1px solid ${theme.palette.divider}`, // A top border for subtle separation
+      mt: 'auto',
       fontStyle: 'italic',
     }}>
       <Typography variant="body2">
