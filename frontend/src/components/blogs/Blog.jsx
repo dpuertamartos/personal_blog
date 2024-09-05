@@ -1,11 +1,47 @@
 import { useState } from 'react'
-import { Box, Typography, Button, Card, CardContent, CardActions, Grid } from '@mui/material'
-import Divider from '@mui/material/Divider'
+import {
+  Box,
+  Typography,
+  Button,
+  CardActions,
+  Divider,
+  IconButton,
+} from '@mui/material'
+import { styled } from '@mui/system'
+import EditIcon from '@mui/icons-material/Edit'
+import DeleteIcon from '@mui/icons-material/Delete'
+import CalendarTodayIcon from '@mui/icons-material/CalendarToday'
+import PersonIcon from '@mui/icons-material/Person'
 import EditBlogModal from './EditBlogModal'
 import blogService from '../../services/blogs'
 import CommentList from '../comments/CommentList'
 import Togglable from '../common/Togglable'
 import DOMPurify from 'dompurify'
+import { format } from 'date-fns'
+
+const StyledCard = styled('div')(({ theme }) => ({
+  padding: theme.spacing(4),
+  marginBottom: theme.spacing(4),
+  borderRadius: theme.shape.borderRadius,
+  backgroundColor: theme.palette.background.paper,
+  boxShadow: theme.shadows[4],
+}))
+
+const TitleSection = styled(Box)(({ theme }) => ({
+  marginBottom: theme.spacing(2),
+}))
+
+const MetaData = styled(Box)(({ theme }) => ({
+  display: 'flex',
+  alignItems: 'center',
+  color: theme.palette.text.secondary,
+  marginBottom: theme.spacing(2),
+  '& > *': {
+    marginRight: theme.spacing(2),
+    display: 'flex',
+    alignItems: 'center',
+  },
+}))
 
 const Blog = ({ blog, user, setBlogs, setErrorMessage }) => {
   const [editingBlog, setEditingBlog] = useState(null)
@@ -31,36 +67,65 @@ const Blog = ({ blog, user, setBlogs, setErrorMessage }) => {
     }
   }
 
+  const formattedDate = format(new Date(blog.date), 'dd-MM-yyyy')
+
   return (
     <>
-      <Card sx={{ marginTop: 2 }}>
-        <CardContent>
-          <Typography variant="h5" gutterBottom>
+      <StyledCard>
+        <TitleSection>
+          <Typography variant="h4" gutterBottom>
             {blog.title}
           </Typography>
-          <Typography variant="body1" dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(blog.content) }} />
-          <Typography variant="body2" color="textSecondary" gutterBottom>
-            By {blog.author}
-          </Typography>
-        </CardContent>
-        <Divider />
-        <CardActions sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap' }}>
-          {user && user.role === 'admin' && (
-            <Box sx={{ display: 'flex', gap: 2, mb: 2, mt: 2 }}>
-              <Button variant="outlined" color="primary" onClick={() => handleEdit(blog)}>
-                Edit Post
-              </Button>
-              <Button variant="outlined" color="secondary" onClick={() => handleDelete(blog.id)}>
-                Delete Post
-              </Button>
-              <Divider />
+          <MetaData>
+            <Box>
+              <CalendarTodayIcon fontSize="small" sx={{ marginRight: 0.5 }} />
+              <Typography variant="body2">{formattedDate}</Typography>
             </Box>
-          )}
-          <Togglable buttonLabel="View Comments" buttonLabelClose="Close Comments">
-            <CommentList blog={blog} user={user} setErrorMessage={setErrorMessage} />
-          </Togglable>
-        </CardActions>
-      </Card>
+            <Box>
+              <PersonIcon fontSize="small" sx={{ marginRight: 0.5 }} />
+              <Typography variant="body2">By {blog.author}</Typography>
+            </Box>
+          </MetaData>
+        </TitleSection>
+        <Divider sx={{ marginBottom: 2 }} />
+        <Typography
+          variant="body1"
+          dangerouslySetInnerHTML={{
+            __html: DOMPurify.sanitize(blog.content),
+          }}
+          sx={{ marginBottom: 4 }}
+        />
+        {user && user.role === 'admin' && (
+          <Box sx={{ display: 'flex', gap: 2, marginBottom: 2 }}>
+            <Button
+              variant="contained"
+              color="primary"
+              startIcon={<EditIcon />}
+              onClick={() => handleEdit(blog)}
+            >
+              Edit Post
+            </Button>
+            <Button
+              variant="outlined"
+              color="secondary"
+              startIcon={<DeleteIcon />}
+              onClick={() => handleDelete(blog.id)}
+            >
+              Delete Post
+            </Button>
+          </Box>
+        )}
+        <Togglable
+          buttonLabel="View Comments"
+          buttonLabelClose="Close Comments"
+        >
+          <CommentList
+            blog={blog}
+            user={user}
+            setErrorMessage={setErrorMessage}
+          />
+        </Togglable>
+      </StyledCard>
 
       <EditBlogModal
         open={editModalOpen}

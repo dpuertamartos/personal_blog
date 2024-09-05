@@ -1,10 +1,15 @@
 import { useState, useEffect } from 'react'
-import { Box, Typography, Button, Paper } from '@mui/material'
+import { Box, Typography, Button, Paper, Divider, IconButton } from '@mui/material'
 import { motion } from 'framer-motion'
 import EditCommentModal from './EditCommentModal'
 import commentService from '../../services/comments'
 import AddComment from './AddComment'
 import DOMPurify from 'dompurify'
+import { format } from 'date-fns'
+import PersonIcon from '@mui/icons-material/Person'
+import CalendarTodayIcon from '@mui/icons-material/CalendarToday'
+import DeleteIcon from '@mui/icons-material/Delete'
+import EditIcon from '@mui/icons-material/Edit'
 
 const CommentList = ({ blog, user, setErrorMessage }) => {
   const [comments, setComments] = useState([])
@@ -93,32 +98,71 @@ const CommentList = ({ blog, user, setErrorMessage }) => {
           handleAddComment={handleAddComment}
         />
       )}
-      {comments.map((comment) => (
-        <motion.div 
-          key={comment.id} 
-          initial={{ opacity: 0 }} 
-          animate={{ opacity: 1 }} 
-          transition={{ duration: 0.3 }} 
-          style={{ width: '100%' }}
-        >
-          <Paper elevation={1} sx={{ padding: 2, marginTop: 2, width: '100%' }}>
-            <Typography variant="body1" dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(comment.content) }} />
-            <Typography variant="caption" color="textSecondary">
-              By {comment.user.email}
-            </Typography>
-            {(user && (user.role === 'admin' || comment.user.email === user.email)) && (
-              <Box mt={1} sx={{ display: 'flex', gap: 1 }}>
-                <Button variant="outlined" color="primary" onClick={() => handleEditComment(comment)}>
-                  Edit
-                </Button>
-                <Button variant="outlined" color="secondary" onClick={() => handleDeleteComment(comment.id)}>
-                  Delete
-                </Button>
+      {comments.map((comment) => {
+        const formattedDate = format(new Date(comment.date), 'dd-MM-yyyy')
+        return (
+          <motion.div
+            key={comment.id}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.3 }}
+            style={{ width: '100%' }}
+          >
+            <Paper elevation={1} sx={{ padding: 3, marginTop: 2, width: '100%' }}>
+              <Box sx={{ marginBottom: 2 }}>
+                <Typography
+                  variant="body1"
+                  dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(comment.content) }}
+                />
               </Box>
-            )}
-          </Paper>
-        </motion.div>
-      ))}
+
+              {/* Comment metadata section with date and author */}
+              <Box
+                sx={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: 2,
+                  color: 'text.secondary',
+                  marginBottom: 2,
+                }}
+              >
+                <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+                  <PersonIcon fontSize="small" />
+                  <Typography variant="caption">{comment.user.email}</Typography>
+                </Box>
+                <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+                  <CalendarTodayIcon fontSize="small" />
+                  <Typography variant="caption">{formattedDate}</Typography>
+                </Box>
+              </Box>
+
+              <Divider sx={{ marginBottom: 2 }} />
+
+              {/* Action buttons for edit/delete */}
+              {(user && (user.role === 'admin' || comment.user.email === user.email)) && (
+                <Box sx={{ display: 'flex', gap: 1 }}>
+                  <Button
+                    variant="outlined"
+                    color="primary"
+                    startIcon={<EditIcon />}
+                    onClick={() => handleEditComment(comment)}
+                  >
+                    Edit
+                  </Button>
+                  <Button
+                    variant="outlined"
+                    color="secondary"
+                    startIcon={<DeleteIcon />}
+                    onClick={() => handleDeleteComment(comment.id)}
+                  >
+                    Delete
+                  </Button>
+                </Box>
+              )}
+            </Paper>
+          </motion.div>
+        )
+      })}
       {editingComment && (
         <EditCommentModal
           open={editCommentModalOpen}
