@@ -11,12 +11,25 @@ const getTokenFrom = request => {
   return null
 }
 
+// Paginated blogs endpoint
 blogsRouter.get('/', async (request, response) => {
+  const { page = 1, limit = 10 } = request.query
+  const skip = (page - 1) * limit
+
+  const totalBlogs = await Blog.countDocuments()
   const blogs = await Blog.find({})
     .populate('user', { email: 1 })
+    .skip(skip)
+    .limit(Number(limit))
+    .sort({ date: -1 })
 
-  response.json(blogs)
+  response.json({
+    totalPages: Math.ceil(totalBlogs / limit),
+    currentPage: Number(page),
+    blogs,
+  })
 })
+
 
 // Get a specific blog post by ID
 blogsRouter.get('/:id', async (request, response) => {

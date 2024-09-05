@@ -1,7 +1,5 @@
 ### Things to add
 
-1. Improve aesthetics v2
-    - Make theme darker, improve font
-
-2. Add pagination to blogs
-3. Filter by date on drawer
+0. Fix scrolling after pressing next/previous
+1. Refactor BlogList
+2. Filter by month/year on drawer

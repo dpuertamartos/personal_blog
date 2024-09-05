@@ -6,6 +6,11 @@ const getAll = async () => {
   return response.data
 }
 
+const getPaginated = async (page = 1) => {
+  const response = await axiosInstance.get(`/blogs?page=${page}`)
+  return response.data
+}
+
 const get = async (id) => {
   const response = await axiosInstance.get(`/blogs/${id}`)
   return response.data
@@ -26,4 +31,4 @@ const update = async (id, updatedObject) => {
   return response.data
 }
 
-export default { getAll, get, create, remove, update }
+export default { getAll, getPaginated, get, create, remove, update }

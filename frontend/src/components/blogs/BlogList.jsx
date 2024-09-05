@@ -1,12 +1,14 @@
 import { useEffect, useState, useRef } from 'react'
 import { useAuth } from '../../context/AuthContext'
-import { Grid, Box, Button, Typography } from '@mui/material'
+import { Grid, Box, Button, Typography, IconButton } from '@mui/material'
 import { styled } from '@mui/system'
 import { motion } from 'framer-motion'
 import Blog from './Blog'
 import AddBlog from './AddBlog'
 import blogService from '../../services/blogs'
-import { Typewriter } from 'react-simple-typewriter' // Import Typewriter from react-simple-typewriter
+import { Typewriter } from 'react-simple-typewriter'
+import ArrowRight from '@mui/icons-material/ArrowRight'
+import ArrowLeft from '@mui/icons-material/ArrowLeft'
 
 const SectionDivider = styled(Box)(({ theme }) => ({
   height: '2px',
@@ -21,7 +23,7 @@ const HeroOverlay = styled(Box)(({ theme }) => ({
   left: 0,
   width: '100%',
   height: '100%',
-  backgroundColor: 'rgba(0, 0, 0, 0.6)', // Increased opacity for better text contrast
+  backgroundColor: 'rgba(0, 0, 0, 0.6)',
 }))
 
 const StyledButton = styled(Button)(({ theme }) => ({
@@ -30,49 +32,114 @@ const StyledButton = styled(Button)(({ theme }) => ({
   fontSize: '18px',
   fontWeight: 'bold',
   boxShadow: '0 4px 6px rgba(0, 0, 0, 0.2)',
-  backgroundColor: theme.palette.primary.main, // Ensure contrast with the text
+  backgroundColor: theme.palette.primary.main,
   transition: 'transform 0.3s, background-color 0.3s',
   '&:hover': {
     transform: 'scale(1.05)',
-    backgroundColor: theme.palette.primary.dark, // Darker color on hover
+    backgroundColor: theme.palette.primary.dark,
   },
   '&:focus': {
-    outline: `2px solid ${theme.palette.primary.main}`, // Accessibility improvement
+    outline: `2px solid ${theme.palette.primary.main}`,
   },
 }))
 
+const PaginationControls = ({ currentPage, totalPages, handlePreviousPage, handleNextPage, scrollToBlogs }) => {
+  return (
+    <Box sx={{ display: 'flex', justifyContent: 'space-between', marginTop: 3 }}>
+      <Button
+        variant="contained"
+        onClick={() => {
+          handlePreviousPage()
+          scrollToBlogs()
+        }}
+        disabled={currentPage === 1}
+        sx={{
+          backgroundColor: 'rgba(255, 255, 255, 0.1)',
+          color: 'white',
+          '&:hover': {
+            backgroundColor: 'rgba(255, 255, 255, 0.2)',
+          },
+        }}
+        startIcon={<ArrowLeft />}
+      >
+        Previous
+      </Button>
+      <Typography>{currentPage} of {totalPages}</Typography>
+      <Button
+        variant="contained"
+        onClick={() => {
+          handleNextPage()
+          scrollToBlogs()
+        }}
+        disabled={currentPage === totalPages}
+        sx={{
+          backgroundColor: 'rgba(255, 255, 255, 0.1)',
+          color: 'white',
+          '&:hover': {
+            backgroundColor: 'rgba(255, 255, 255, 0.2)',
+          },
+        }}
+        endIcon={<ArrowRight />}
+      >
+        Next
+      </Button>
+    </Box>
+  )
+}
+
 const BlogList = ({ setErrorMessage, theme }) => {
-  const { user } = useAuth() // Use context to get user info
+  const { user } = useAuth()
   const [blogs, setBlogs] = useState([])
-  const sectionRef = useRef(null) // Ref for SectionDivider
+  const [currentPage, setCurrentPage] = useState(1)
+  const [totalPages, setTotalPages] = useState(1)
+  const sectionRef = useRef(null)
 
   useEffect(() => {
-    blogService.getAll()
-      .then(initialBlogs => setBlogs(initialBlogs))
-      .catch(error => setErrorMessage('Failed to load blogs'))
-  }, [setErrorMessage])
+    fetchBlogs(currentPage)
+  }, [currentPage])
+
+  const fetchBlogs = async (page) => {
+    try {
+      const response = await blogService.getPaginated(page)
+      setBlogs(response.blogs)
+      setTotalPages(response.totalPages)
+    } catch (error) {
+      setErrorMessage('Failed to load blogs')
+    }
+  }
 
   const scrollToBlogs = () => {
-    sectionRef.current.scrollIntoView({ behavior: 'smooth' }) // Smooth scroll to SectionDivider
+    sectionRef.current.scrollIntoView({ behavior: 'smooth' })
+  }
+
+  const handleNextPage = () => {
+    if (currentPage < totalPages) {
+      setCurrentPage((prev) => prev + 1)
+    }
+  }
+
+  const handlePreviousPage = () => {
+    if (currentPage > 1) {
+      setCurrentPage((prev) => prev - 1)
+    }
   }
 
   return (
     <Box>
-      {/* Hero Section */}
       <Box
         sx={{
           position: 'relative',
           backgroundImage: 'url("/hero1.webp")',
           backgroundSize: 'cover',
           backgroundPosition: 'center',
-          height: '80vh', // Reduced height for better content balance
+          height: '80vh',
           color: '#fff',
           display: 'flex',
           flexDirection: 'column',
           justifyContent: 'center',
           alignItems: 'center',
           textAlign: 'center',
-          mb: '5%', // Less margin for more compact design
+          mb: '5%',
           px: '4%',
         }}
       >
@@ -82,16 +149,15 @@ const BlogList = ({ setErrorMessage, theme }) => {
           sx={{
             mb: 2,
             zIndex: 1,
-            textShadow: '2px 2px 8px rgba(0, 0, 0, 0.7)', // Text shadow for better readability
+            textShadow: '2px 2px 8px rgba(0, 0, 0, 0.7)',
           }}
           gutterBottom
         >
-          {/* Typewriter effect for the main text */}
           <Typewriter
             words={['Indie Co. Blog']}
             loop={1}
             cursor
-            cursorStyle='_'
+            cursorStyle=' >_'
             typeSpeed={70}
             deleteSpeed={50}
             delaySpeed={1000}
@@ -102,7 +168,7 @@ const BlogList = ({ setErrorMessage, theme }) => {
           sx={{
             mb: 4,
             zIndex: 1,
-            textShadow: '1px 1px 6px rgba(0, 0, 0, 0.5)', // Subtle text shadow for subtext
+            textShadow: '1px 1px 6px rgba(0, 0, 0, 0.5)',
           }}
         >
           Insights and Stories from the point of view of an Indie Developer.
@@ -114,20 +180,38 @@ const BlogList = ({ setErrorMessage, theme }) => {
         </motion.div>
       </Box>
 
-      {/* Section Divider for Scrolling Target */}
       <SectionDivider ref={sectionRef} />
+
+      {/* Top Pagination Controls */}
+      <PaginationControls
+        currentPage={currentPage}
+        totalPages={totalPages}
+        handlePreviousPage={handlePreviousPage}
+        handleNextPage={handleNextPage}
+        scrollToBlogs={scrollToBlogs}
+      />
+
       <Box sx={{ padding: 3 }}>
-        {/* Blog List and Add Blog */}
         {user && user.role === 'admin' && (
           <AddBlog blogs={blogs} setBlogs={setBlogs} setErrorMessage={setErrorMessage} />
         )}
+
         <Grid container spacing={3} sx={{ marginTop: 2 }}>
-          {blogs.map(blog => (
+          {blogs.map((blog) => (
             <Grid item xs={12} key={blog.id}>
               <Blog blog={blog} user={user} setBlogs={setBlogs} setErrorMessage={setErrorMessage} />
             </Grid>
           ))}
         </Grid>
+
+        {/* Bottom Pagination Controls */}
+        <PaginationControls
+          currentPage={currentPage}
+          totalPages={totalPages}
+          handlePreviousPage={handlePreviousPage}
+          handleNextPage={handleNextPage}
+          scrollToBlogs={scrollToBlogs}
+        />
       </Box>
     </Box>
   )
