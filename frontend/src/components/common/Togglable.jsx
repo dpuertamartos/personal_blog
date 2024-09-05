@@ -30,10 +30,10 @@ const Togglable = forwardRef((props, ref) => {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.3 }}
         >
-          {props.children}
-          <Button variant="outlined" color="secondary" onClick={toggleVisibility} sx={{ mt: 2 }}>
-              Cancel
+          <Button variant="contained" color="secondary" onClick={toggleVisibility} sx={{ mt: 2 }}>
+            {props.buttonLabelClose}
           </Button>
+          {props.children}
         </motion.div>
       )}
     </Box>

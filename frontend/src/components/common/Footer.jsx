@@ -16,7 +16,7 @@ const Footer = () => {
       fontStyle: 'italic',
     }}>
       <Typography variant="body2">
-                Fast Ship Template by David Puerta @ {currentYear}
+        IndieCo Blog by David Puerta @ {currentYear}
       </Typography>
     </Box>
   )

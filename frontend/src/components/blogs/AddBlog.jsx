@@ -30,7 +30,7 @@ const AddBlog = ({ blogs, setBlogs, setErrorMessage }) => {
   }
 
   return (
-    <Togglable buttonLabel="New blog" ref={blogFormRef}>
+    <Togglable buttonLabel="New blog" buttonLabelClose="Close New Blog" ref={blogFormRef}>
       <Paper elevation={3} sx={{ padding: 3, marginTop: 2 }}>
         <Typography variant="h6" gutterBottom>
           Add a New Blog

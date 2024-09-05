@@ -1,6 +1,6 @@
 import { useState } from 'react'
-import { Box, Typography, Button, Card, CardContent, CardActions } from '@mui/material'
-import { motion } from 'framer-motion'
+import { Box, Typography, Button, Card, CardContent, CardActions, Grid } from '@mui/material'
+import Divider from '@mui/material/Divider'
 import EditBlogModal from './EditBlogModal'
 import blogService from '../../services/blogs'
 import CommentList from '../comments/CommentList'
@@ -43,20 +43,34 @@ const Blog = ({ blog, user, setBlogs, setErrorMessage }) => {
             By {blog.author}
           </Typography>
         </CardContent>
+        <Divider />
         <CardActions>
-          <Togglable buttonLabel="View Comments">
-            <CommentList blog={blog} user={user} setErrorMessage={setErrorMessage} />
-          </Togglable>
-          {user && user.role === 'admin' && (
-            <Box sx={{ marginLeft: 'auto' }}>
-              <Button variant="outlined" color="primary" onClick={() => handleEdit(blog)}>
-                Edit
-              </Button>
-              <Button variant="outlined" color="secondary" onClick={() => handleDelete(blog.id)}>
-                Delete
-              </Button>
-            </Box>
-          )}
+          <Grid container spacing={2} sx={{ marginLeft: 'auto' }}>
+            {user && user.role === 'admin' && (
+              <Box>
+                <Grid item xs={12}>
+                  <Grid container spacing={1}>
+                    <Grid item xs={3}>
+                      <Button variant="outlined" color="primary" fullWidth onClick={() => handleEdit(blog)}>
+                      Edit Post
+                      </Button>
+                    </Grid>
+                    <Grid item xs={3}>
+                      <Button variant="outlined" color="secondary" fullWidth onClick={() => handleDelete(blog.id)}>
+                      Delete Post
+                      </Button>
+                    </Grid>
+                  </Grid>
+                </Grid>
+                <Divider />
+              </Box>
+            )}
+            <Grid item xs={12}>
+              <Togglable buttonLabel="View Comments" buttonLabelClose="Close Comments">
+                <CommentList blog={blog} user={user} setErrorMessage={setErrorMessage} />
+              </Togglable>
+            </Grid>
+          </Grid>
         </CardActions>
       </Card>
 
