@@ -11,13 +11,59 @@ const getTokenFrom = request => {
   return null
 }
 
+// Aggregated blog posts count by year and month
+blogsRouter.get('/stats', async (request, response) => {
+  const result = await Blog.aggregate([
+    {
+      $group: {
+        _id: {
+          year: { $year: "$date" },
+          month: { $month: "$date" }
+        },
+        count: { $sum: 1 }
+      }
+    },
+    {
+      $sort: { "_id.year": -1, "_id.month": -1 } // Sort by year and month descending
+    }
+  ])
+
+  // Transform the result into the format expected by the frontend
+  const transformedResult = result.reduce((acc, item) => {
+    const year = item._id.year
+    const month = item._id.month
+
+    if (!acc[year]) {
+      acc[year] = { total: 0, months: {} }
+    }
+
+    acc[year].total += item.count
+    acc[year].months[month] = item.count
+
+    return acc
+  }, {})
+
+  response.json(transformedResult)
+})
+
+
 // Paginated blogs endpoint
+// Fetch blogs, optionally filtered by year and month
 blogsRouter.get('/', async (request, response) => {
-  const { page = 1, limit = 10 } = request.query
+  const { page = 1, limit = 10, year, month } = request.query
   const skip = (page - 1) * limit
 
-  const totalBlogs = await Blog.countDocuments()
-  const blogs = await Blog.find({})
+  const query = {}
+  if (year) {
+    query.date = {
+      ...query.date,
+      $gte: new Date(year, month ? month - 1 : 0, 1),
+      $lt: new Date(year, month ? month : 12, 1)
+    }
+  }
+
+  const totalBlogs = await Blog.countDocuments(query)
+  const blogs = await Blog.find(query)
     .populate('user', { email: 1 })
     .skip(skip)
     .limit(Number(limit))
@@ -29,6 +75,7 @@ blogsRouter.get('/', async (request, response) => {
     blogs,
   })
 })
+
 
 
 // Get a specific blog post by ID

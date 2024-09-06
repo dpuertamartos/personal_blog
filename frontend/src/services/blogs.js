@@ -6,6 +6,16 @@ const getAll = async () => {
   return response.data
 }
 
+const getStats = async () => {
+  const response = await axiosInstance.get('/blogs/stats')
+  return response.data
+}
+
+const getFiltered = async (page, year, month) => {
+  const response = await axiosInstance.get(`/blogs?page=${page}&year=${year}&month=${month}`)
+  return response.data
+}
+
 const getPaginated = async (page = 1) => {
   const response = await axiosInstance.get(`/blogs?page=${page}`)
   return response.data
@@ -31,4 +41,4 @@ const update = async (id, updatedObject) => {
   return response.data
 }
 
-export default { getAll, getPaginated, get, create, remove, update }
+export default { getAll, getStats, getPaginated, getFiltered, get, create, remove, update }
