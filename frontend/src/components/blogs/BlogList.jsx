@@ -1,6 +1,6 @@
 import { useEffect, useState, useRef } from 'react'
 import { useAuth } from '../../context/AuthContext'
-import { Grid, Box, Button, Typography, IconButton } from '@mui/material'
+import { Grid, Box, Button, Typography } from '@mui/material'
 import { styled } from '@mui/system'
 import { motion } from 'framer-motion'
 import Blog from './Blog'
@@ -45,12 +45,12 @@ const StyledButton = styled(Button)(({ theme }) => ({
 
 const PaginationControls = ({ currentPage, totalPages, handlePreviousPage, handleNextPage, scrollToBlogs }) => {
   return (
-    <Box sx={{ display: 'flex', justifyContent: 'space-between', marginTop: 3 }}>
+    <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', marginTop: 3 }}>
       <Button
         variant="contained"
         onClick={() => {
           handlePreviousPage()
-          scrollToBlogs()
+          scrollToBlogs('auto')  // No smooth scroll on pagination
         }}
         disabled={currentPage === 1}
         sx={{
@@ -61,15 +61,15 @@ const PaginationControls = ({ currentPage, totalPages, handlePreviousPage, handl
           },
         }}
         startIcon={<ArrowLeft />}
-      >
-        Previous
-      </Button>
-      <Typography>{currentPage} of {totalPages}</Typography>
+      />
+      <Typography sx={{ marginX: 2 }}>
+        {currentPage} of {totalPages}
+      </Typography>
       <Button
         variant="contained"
         onClick={() => {
           handleNextPage()
-          scrollToBlogs()
+          scrollToBlogs('auto')  // No smooth scroll on pagination
         }}
         disabled={currentPage === totalPages}
         sx={{
@@ -80,9 +80,7 @@ const PaginationControls = ({ currentPage, totalPages, handlePreviousPage, handl
           },
         }}
         endIcon={<ArrowRight />}
-      >
-        Next
-      </Button>
+      />
     </Box>
   )
 }
@@ -108,10 +106,7 @@ const BlogList = ({ setErrorMessage, theme }) => {
     }
   }
 
-  const scrollToBlogs = () => {
-    sectionRef.current.scrollIntoView({ behavior: 'smooth' })
-  }
-
+  // Pagination handlers without smooth scroll
   const handleNextPage = () => {
     if (currentPage < totalPages) {
       setCurrentPage((prev) => prev + 1)
@@ -122,6 +117,11 @@ const BlogList = ({ setErrorMessage, theme }) => {
     if (currentPage > 1) {
       setCurrentPage((prev) => prev - 1)
     }
+  }
+
+  // Scroll to blogs with smooth scroll only from the hero section
+  const scrollToBlogs = (behavior = 'smooth') => {
+    sectionRef.current.scrollIntoView({ behavior })
   }
 
   return (
@@ -174,7 +174,7 @@ const BlogList = ({ setErrorMessage, theme }) => {
           Insights and Stories from the point of view of an Indie Developer.
         </Typography>
         <motion.div initial={{ opacity: 0.8, scale: 0.8 }} animate={{ opacity: 1, scale: 1 }} transition={{ duration: 1, ease: 'easeInOut' }}>
-          <StyledButton size="large" variant="contained" color="primary" onClick={scrollToBlogs}>
+          <StyledButton size="large" variant="contained" color="primary" onClick={() => scrollToBlogs('smooth')}>
             Explore Posts
           </StyledButton>
         </motion.div>
