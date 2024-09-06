@@ -70,7 +70,7 @@ const Blog = ({ blog, user, setBlogs, setErrorMessage }) => {
   const formattedDate = format(new Date(blog.date), 'dd-MM-yyyy')
 
   return (
-    <>
+    <Box mt={2} sx={{ maxWidth: '100%', overflow: 'hidden', wordWrap: 'break-word' }}>
       <StyledCard>
         <TitleSection>
           <Typography variant="h4" gutterBottom>
@@ -134,8 +134,9 @@ const Blog = ({ blog, user, setBlogs, setErrorMessage }) => {
         setErrorMessage={setErrorMessage}
         onClose={() => setEditModalOpen(false)}
       />
-    </>
+    </Box>
   )
 }
 
 export default Blog
+

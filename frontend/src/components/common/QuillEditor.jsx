@@ -95,6 +95,7 @@ const QuillEditor = ({ value, onChange, allowImages = true }) => { // Add allowI
       modules={modules} // Include custom toolbar modules
       formats={formats} // Include formats to be supported by the editor
       theme="snow"
+      style={{ width: '100%', maxWidth: '100%' }}
     />
   )
 }

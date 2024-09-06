@@ -10,14 +10,14 @@ import PrivacyPolicy from './views/PrivacyPolicy'
 import Home from './views/Home'
 import SmallScreenNavMenu from './components/common/DrawerSmallScreenNavigation'
 import TopMenu from './components/common/AppBar'
-import { useAuth } from './context/AuthContext' // Import useAuth
+import { useAuth } from './context/AuthContext'
 
 const App = () => {
   const [errorMessage, setErrorMessage] = useState(null)
   const [drawerOpen, setDrawerOpen] = useState(false)
   const [menuOpen, setMenuOpen] = useState(false)
 
-  const { user, logout, loginVisible, setLoginVisible } = useAuth() // Use the new context values
+  const { user, logout, loginVisible, setLoginVisible } = useAuth()
   const theme = useTheme()
   const isLargeScreen = useMediaQuery(theme.breakpoints.up('md'))
   const location = useLocation()
@@ -58,7 +58,7 @@ const App = () => {
         handleMenuToggle={handleMenuToggle}
         user={user}
         onLogin={handleLoginOpen}
-        onLogout={logout} // Use logout from context
+        onLogout={logout}
       />
 
       <Modal open={loginVisible} onClose={handleLoginClose}>
@@ -67,7 +67,8 @@ const App = () => {
           top: '50%',
           left: '50%',
           transform: 'translate(-50%, -50%)',
-          width: 400,
+          width: '90%',
+          maxWidth: 400,
           bgcolor: 'background.paper',
           borderRadius: 2,
           boxShadow: 24,
