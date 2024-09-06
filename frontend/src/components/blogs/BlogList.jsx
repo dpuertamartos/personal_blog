@@ -1,6 +1,6 @@
 import { useEffect, useState, useRef } from 'react'
 import { useAuth } from '../../context/AuthContext'
-import { Grid, Box, Typography, Button } from '@mui/material'
+import { Grid, Box } from '@mui/material'
 import { styled } from '@mui/system'
 import Blog from './Blog'
 import AddBlog from './AddBlog'
@@ -21,6 +21,11 @@ const BlogList = ({ setErrorMessage, theme, filter, onClearFilter, onOpenFilter 
   const [currentPage, setCurrentPage] = useState(1)
   const [totalPages, setTotalPages] = useState(1)
   const sectionRef = useRef(null)
+
+  useEffect(() => {
+    // When the filter is applied, reset the current page to 1
+    setCurrentPage(1)
+  }, [filter])
 
   useEffect(() => {
     fetchBlogs(currentPage, filter)
@@ -68,7 +73,7 @@ const BlogList = ({ setErrorMessage, theme, filter, onClearFilter, onOpenFilter 
     9: 'September',
     10: 'October',
     11: 'November',
-    12: 'December'
+    12: 'December',
   }
 
   return (

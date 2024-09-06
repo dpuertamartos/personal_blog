@@ -13,7 +13,7 @@ const AddBlog = ({ blogs, setBlogs, setErrorMessage }) => {
     event.preventDefault()
     try {
       const savedBlog = await blogService.create(newBlog)
-      setBlogs(blogs.concat(savedBlog))
+      setBlogs([savedBlog, ...blogs])
       setNewBlog({ title: '', content: '', author: '' })
     } catch (error) {
       console.error('Failed to add blog', error)
