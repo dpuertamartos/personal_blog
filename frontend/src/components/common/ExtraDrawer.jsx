@@ -10,7 +10,7 @@ const ExtraDrawer = ({ theme, handleDrawerToggle, drawerOpen, drawerContent }) =
       open={drawerOpen}
       onClose={handleDrawerToggle}
       sx={{
-        display: { xs: 'block', md: 'none' },
+        display: { xs: 'block' },
         '& .MuiDrawer-paper': {
           width: '80%',
           maxHeight: '85vh',

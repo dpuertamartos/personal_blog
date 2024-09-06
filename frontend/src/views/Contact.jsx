@@ -5,7 +5,8 @@ import ContactButton from '../components/common/ContactButton'
 
 const Contact = () => {
   const faqs = [
-    { question: '¿Cómo?', answer: 'Si' }
+    { question: 'What is this blog about?', answer: 'This blog shares insights, tutorials, and stories related to software development and indie entrepreneurship' },
+    { question: 'How often is content posted?', answer: 'New articles are posted every week, covering a range of technical topics and personal experiences in the software industry.' }
   ]
 
   const theme = useTheme()
@@ -14,7 +15,7 @@ const Contact = () => {
   return (
     <Box sx={{
       flexGrow: 1,
-      backgroundImage: 'url("4_medium.jpg")',
+      backgroundImage: 'url("hero2.jpg")',
       backgroundSize: 'cover',
       backgroundPosition: 'center',
       minHeight: '100vh', // use minHeight instead of height
@@ -35,23 +36,17 @@ const Contact = () => {
             overflow: 'auto', // allow scrolling within Paper if content overflows
             mb: isSmallScreen ? 2 : 0, // add bottom margin on small screens
           }}>
-            <Typography variant="h5" gutterBottom color="primary" sx={{ fontWeight: 'bold' }}>Información de contacto</Typography>
-            <ContactButton />
-            <Divider sx={{ mb: 2 }} />
-            <Typography variant="h6" gutterBottom color="text.primary" sx={{ fontWeight: 'bold' }}>Sobre la página web</Typography>
+            <Typography variant="h6" gutterBottom color="text.primary" sx={{ fontWeight: 'bold' }}>About the Blog</Typography>
             <Typography variant="body1" sx={{ mb: 2, textAlign: 'justify' }}>
-                        Esta web está desarrollada
+              This website is a platform to share knowledge, tips, and stories from the world of software development and indie development. The blog aims to provide tutorials, project experiences, and personal insights that can help fellow developers on their journey.
               <br />
               <br />
-                        Los datos .
+              Whether you're into coding, data, or simply exploring the startup life, you'll find something useful here.
             </Typography>
             <Divider sx={{ mb: 2 }} />
-            <Typography variant="h6" gutterBottom color="text.primary" sx={{ fontWeight: 'bold' }}>Sobre mí</Typography>
+            <Typography variant="h6" gutterBottom color="text.primary" sx={{ fontWeight: 'bold' }}>About Me</Typography>
             <Typography variant="body1" sx={{ textAlign: 'justify' }}>
-                        Mi nombre es David.
-              <br />
-              <br />
-                        Tras un período trabajando en investigación, comencé a trabajar en Ingenieria de Software y Datos.
+              My name is David, and I'm passionate about software development and data engineering. After working in research, I transitioned into software development. This blog is a way for me to share what I learn along the way.
             </Typography>
           </Paper>
         </Grid>
@@ -62,7 +57,7 @@ const Contact = () => {
             opacity: 0.95,
             overflow: 'auto', // allow scrolling within Paper if content overflows
           }}>
-            <Typography variant="h5" gutterBottom color="primary" sx={{ fontWeight: 'bold' }}>Preguntas Frecuentes</Typography>
+            <Typography variant="h5" gutterBottom color="primary" sx={{ fontWeight: 'bold' }}>Frequently Asked Questions</Typography>
             <List>
               {faqs.map((faq, index) => (
                 <React.Fragment key={index}>
@@ -77,8 +72,11 @@ const Contact = () => {
               ))}
             </List>
             <Button variant="outlined" color="secondary" component={Link} to="/privacy_policy">
-                            Ver Política de Privacidad
+              View Privacy Policy
             </Button>
+            <Divider sx={{ mt: 2, mb: 2 }} />
+            <Typography variant="h5" gutterBottom color="primary" sx={{ fontWeight: 'bold' }}>Contact Information</Typography>
+            <ContactButton />
           </Paper>
         </Grid>
       </Grid>
@@ -87,7 +85,3 @@ const Contact = () => {
 }
 
 export default Contact
-
-
-
-

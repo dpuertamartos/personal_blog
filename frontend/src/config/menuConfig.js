@@ -15,13 +15,6 @@ const menuItems = [
     showInDrawer: true,
     showSettingsIcon: false,
   },
-  {
-    label: 'Privacy Policy',
-    path: '/privacy_policy',
-    showInAppBar: false,
-    showInDrawer: true,
-    showSettingsIcon: false,
-  },
 ]
 
 export default menuItems

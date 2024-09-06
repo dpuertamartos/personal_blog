@@ -9,7 +9,7 @@ const ContactButton = () => {
       href="mailto:data@gmail.com"
       sx={{ my: 2, textTransform: 'none' }}
     >
-            data@gmail.com
+          buscahogardata@gmail.com
     </Button>
   )
 }

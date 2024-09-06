@@ -86,7 +86,7 @@ const App = () => {
           <Route path="/contact" element={<Contact />} />
           <Route path="/privacy_policy" element={<PrivacyPolicy />} />
           <Route path="/profile" element={<Profile user={user} onLogout={logout} />} />
-          <Route path="/" element={<Home theme={theme} isLargeScreen={isLargeScreen} drawerOpen={drawerOpen} handleDrawerToggle={handleDrawerToggle} setErrorMessage={setErrorMessage}/>} />
+          <Route path="/" element={<Home theme={theme} drawerOpen={drawerOpen} handleDrawerToggle={handleDrawerToggle} setErrorMessage={setErrorMessage}/>} />
         </Routes>
       </Box>
 

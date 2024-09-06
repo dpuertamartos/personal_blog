@@ -3,11 +3,10 @@ import { AppBar, Toolbar, Button, IconButton, Box } from '@mui/material'
 import SettingsIcon from '@mui/icons-material/Tune'
 import MenuIcon from '@mui/icons-material/Menu'
 import HomeIcon from '@mui/icons-material/Home'
-import AccountCircle from '@mui/icons-material/AccountCircle'
 import ShareMenu from './ShareMenu'
 import menuItems from '../../config/menuConfig' // Import the menu configuration
 
-const TopMenu = ({ location, linkStyle, theme, isLargeScreen, handleDrawerToggle, handleMenuToggle, user, onLogin }) => {
+const TopMenu = ({ location, linkStyle, theme, isLargeScreen, handleDrawerToggle, handleMenuToggle, user, onLogin, onLogout }) => {
 
   const appBarStyle = {
     backgroundColor: 'rgba(0, 0, 0, 0.85)', // Darker background for better contrast
@@ -30,17 +29,27 @@ const TopMenu = ({ location, linkStyle, theme, isLargeScreen, handleDrawerToggle
             <IconButton color={location.pathname === '/' ? 'primary' : 'inherit'} component={Link} to="/">
               <HomeIcon />
             </IconButton>
+            {showSettingsIcon && (
+              <IconButton
+                color="inherit"
+                aria-label="open drawer"
+                edge="end"
+                onClick={handleDrawerToggle}
+              >
+                <SettingsIcon />
+              </IconButton>
+            )}
 
             {isLargeScreen && (
               <>
                 {user ? (
-                  <IconButton
-                    color={location.pathname === '/profile' ? 'primary' : 'inherit'}
-                    component={Link}
-                    to="/profile"
+                  <Button
+                    color="inherit"
+                    sx={{ ...linkStyle, color: 'inherit' }}
+                    onClick={onLogout}
                   >
-                    <AccountCircle />
-                  </IconButton>
+                  LOGOUT
+                  </Button>
                 ) : (
                   <Button
                     color="inherit"
@@ -70,16 +79,6 @@ const TopMenu = ({ location, linkStyle, theme, isLargeScreen, handleDrawerToggle
               </>
             )}
           </Box>
-          {!isLargeScreen && showSettingsIcon && (
-            <IconButton
-              color="inherit"
-              aria-label="open drawer"
-              edge="end"
-              onClick={handleDrawerToggle}
-            >
-              <SettingsIcon />
-            </IconButton>
-          )}
           {!isLargeScreen && (
             <IconButton
               color={location.pathname !== '/' ? 'primary' : 'inherit'}

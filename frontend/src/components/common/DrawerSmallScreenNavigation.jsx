@@ -21,9 +21,10 @@ const SmallScreenNavMenu = ({ location, theme, linkStyle, menuOpen, handleMenuTo
       sx={{
         '& .MuiDrawer-paper': {
           width: 250,
-          backgroundColor: 'rgba(255, 255, 255, 0.9)',  // Semi-transparent background
+          backgroundColor: 'rgba(0, 0, 0, 0.85)',
           backdropFilter: 'blur(10px)',  // Blur effect
           boxShadow: theme.shadows[5],  // Subtle shadow for depth
+          color: theme.palette.text.primary,
         }
       }}
     >
@@ -49,9 +50,6 @@ const SmallScreenNavMenu = ({ location, theme, linkStyle, menuOpen, handleMenuTo
           )}
           {user ? (
             <>
-              <ListItem button component={Link} to="/profile" onClick={handleMenuToggle} sx={drawerItemStyle('/profile')}>
-                <ListItemText primary={<Typography sx={drawerItemStyle('/profile')}>PERFIL</Typography>} />
-              </ListItem>
               <ListItem button onClick={onLogout} sx={drawerItemStyle('/profile')}>
                 <IconButton color="inherit"><LogoutIcon /></IconButton>
                 <ListItemText primary={<Typography sx={drawerItemStyle('/profile')}>LOGOUT</Typography>} />
