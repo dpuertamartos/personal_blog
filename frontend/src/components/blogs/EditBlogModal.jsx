@@ -50,12 +50,14 @@ const EditBlogModal = ({ open, blog, setBlogs, setErrorMessage, onClose }) => {
             top: '50%',
             left: '50%',
             transform: 'translate(-50%, -50%)',
-            width: '95%',
+            width: '90%',
+            maxHeight: '80%',  // Limit the modal height
             bgcolor: 'background.paper',
             borderRadius: 2,
             boxShadow: 24,
             p: 4,
             outline: 'none',
+            overflowY: 'auto',  // Enable vertical scrolling
           }}
         >
           <Typography variant="h6" mb={2}>

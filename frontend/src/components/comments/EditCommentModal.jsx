@@ -25,11 +25,13 @@ const EditCommentModal = ({ open, editingComment, setEditingComment, handleUpdat
             left: '50%',
             transform: 'translate(-50%, -50%)',
             width: '85%',
+            maxHeight: '80%',  // Limit the modal height
             bgcolor: 'background.paper',
             borderRadius: 2,
             boxShadow: 24,
             p: 4,
             outline: 'none',
+            overflowY: 'auto',  // Enable vertical scrolling
           }}
         >
           <Typography variant="h6" mb={2}>

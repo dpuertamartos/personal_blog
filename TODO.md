@@ -1,4 +1,6 @@
 ### Things to add
 
-1. Fix problems with blog / comment contents
-2. Filter by month/year on drawer
+0. Change color to drawer
+1. Fix menu navigation
+2. Fill contact info
+3. Filter by month/year on drawer

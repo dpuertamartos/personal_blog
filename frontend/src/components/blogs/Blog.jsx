@@ -3,9 +3,7 @@ import {
   Box,
   Typography,
   Button,
-  CardActions,
   Divider,
-  IconButton,
 } from '@mui/material'
 import { styled } from '@mui/system'
 import EditIcon from '@mui/icons-material/Edit'
@@ -88,13 +86,17 @@ const Blog = ({ blog, user, setBlogs, setErrorMessage }) => {
           </MetaData>
         </TitleSection>
         <Divider sx={{ marginBottom: 2 }} />
+
+        {/* Add className to blog content container for targeting in useEffect */}
         <Typography
           variant="body1"
+          className="blog-content"
           dangerouslySetInnerHTML={{
             __html: DOMPurify.sanitize(blog.content),
           }}
           sx={{ marginBottom: 4 }}
         />
+
         {user && user.role === 'admin' && (
           <Box sx={{ display: 'flex', gap: 2, marginBottom: 2 }}>
             <Button
@@ -139,4 +141,3 @@ const Blog = ({ blog, user, setBlogs, setErrorMessage }) => {
 }
 
 export default Blog
-
