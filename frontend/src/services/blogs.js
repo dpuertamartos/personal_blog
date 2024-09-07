@@ -41,4 +41,9 @@ const update = async (id, updatedObject) => {
   return response.data
 }
 
-export default { getAll, getStats, getPaginated, getFiltered, get, create, remove, update }
+const vote = async (blogId, type) => {
+  const response = await axiosInstance.post(`/blogs/${blogId}/${type}`)
+  return response
+}
+
+export default { getAll, getStats, getPaginated, getFiltered, get, create, remove, update, vote }

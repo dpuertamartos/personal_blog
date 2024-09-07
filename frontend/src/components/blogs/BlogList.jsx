@@ -15,7 +15,7 @@ const SectionDivider = styled(Box)(({ theme }) => ({
   margin: theme.spacing(4, 0),
 }))
 
-const BlogList = ({ setErrorMessage, theme, filter, onClearFilter, onOpenFilter }) => {
+const BlogList = ({ setErrorMessage, theme, filter, onClearFilter, onOpenFilter, handleLoginOpen }) => {
   const { user } = useAuth()
   const [blogs, setBlogs] = useState([])
   const [currentPage, setCurrentPage] = useState(1)
@@ -103,7 +103,7 @@ const BlogList = ({ setErrorMessage, theme, filter, onClearFilter, onOpenFilter 
         <Grid container spacing={3} sx={{ marginTop: 2 }}>
           {blogs.map((blog) => (
             <Grid item xs={12} key={blog.id}>
-              <Blog blog={blog} user={user} setBlogs={setBlogs} setErrorMessage={setErrorMessage} />
+              <Blog blog={blog} user={user} setBlogs={setBlogs} setErrorMessage={setErrorMessage} handleLoginOpen={handleLoginOpen} />
             </Grid>
           ))}
         </Grid>

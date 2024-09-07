@@ -5,7 +5,7 @@ import ExtraDrawer from '../components/common/ExtraDrawer'
 import blogService from '../services/blogs'
 import YearMonthFilter from '../components/blogs/YearMonthFilter'
 
-const Home = ({ theme, handleDrawerToggle, drawerOpen, setDrawerOpen, setErrorMessage }) => {
+const Home = ({ theme, handleDrawerToggle, drawerOpen, setDrawerOpen, setErrorMessage, handleLoginOpen }) => {
   const [yearMonthStats, setYearMonthStats] = useState({}) // Set initial state to empty object
   const [activeFilter, setActiveFilter] = useState(null)
 
@@ -53,6 +53,7 @@ const Home = ({ theme, handleDrawerToggle, drawerOpen, setDrawerOpen, setErrorMe
         filter={activeFilter}
         onClearFilter={clearFilter}
         onOpenFilter={handleDrawerToggle}
+        handleLoginOpen={handleLoginOpen}
       />
     </Box>
   )

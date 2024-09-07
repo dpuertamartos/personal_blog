@@ -20,4 +20,9 @@ const remove = async (id) => {
   return response.data
 }
 
-export default { getByBlog, create, update, remove }
+const vote = async (commentId, type) => {
+  const response = await axiosInstance.post(`/comments/${commentId}/${type}`)
+  return response
+}
+
+export default { getByBlog, create, update, remove, vote }
