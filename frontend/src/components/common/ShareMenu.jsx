@@ -1,9 +1,12 @@
 import { useState } from 'react'
 import { IconButton, Box, Menu, MenuItem } from '@mui/material'
-import { EmailShareButton, FacebookShareButton, TwitterShareButton, LinkedinShareButton, WhatsappShareButton, EmailIcon, FacebookIcon, TwitterIcon, LinkedinIcon, WhatsappIcon } from 'react-share'
+import {
+  EmailShareButton, FacebookShareButton, TwitterShareButton, LinkedinShareButton, WhatsappShareButton,
+  EmailIcon, FacebookIcon, TwitterIcon, LinkedinIcon, WhatsappIcon
+} from 'react-share'
 import ShareIcon from '@mui/icons-material/Share'
 
-const ShareMenu = () => {
+const ShareMenu = ({ title = 'IndieCo Blog', url = 'https://indieco.blog', description = 'Insights and stories from an indie developer' }) => {
   const [anchorEl, setAnchorEl] = useState(null)
 
   const handleShareClick = (event) => {
@@ -17,9 +20,9 @@ const ShareMenu = () => {
   const handleNativeShare = () => {
     if (navigator.share) {
       navigator.share({
-        title: 'BuscaHogar',
-        text: 'Échale un ojo a este buscador de inmuebles, con tasación automática!',
-        url: 'https://www.buscahogar.es',
+        title: title,
+        text: description,
+        url: url,
       }).catch((error) => console.log('Error sharing', error))
     } else {
       alert('Your browser does not support the native share functionality.')
@@ -38,36 +41,33 @@ const ShareMenu = () => {
         onClose={handleClose}
       >
         <MenuItem>
-          <FacebookShareButton url="https://www.buscahogar.es" hashtag="BuscaHogar">
+          <FacebookShareButton url={url} hashtag={title}>
             <FacebookIcon size={32} round />
           </FacebookShareButton>
         </MenuItem>
         <MenuItem>
-          <TwitterShareButton url="https://www.buscahogar.es" title="Échale un ojo a este buscador de inmuebles, con tasación automática!">
+          <TwitterShareButton url={url} title={title}>
             <TwitterIcon size={32} round />
           </TwitterShareButton>
         </MenuItem>
         <MenuItem>
-          <LinkedinShareButton url="https://www.buscahogar.es" title="Échale un ojo a este buscador de inmuebles, con tasación automática!">
+          <LinkedinShareButton url={url} title={title}>
             <LinkedinIcon size={32} round />
           </LinkedinShareButton>
         </MenuItem>
         <MenuItem>
-          <WhatsappShareButton url="https://www.buscahogar.es" title="Échale un ojo a este buscador de inmuebles, con tasación automática!">
+          <WhatsappShareButton url={url} title={title}>
             <WhatsappIcon size={32} round />
           </WhatsappShareButton>
         </MenuItem>
         <MenuItem>
-          <EmailShareButton
-            subject="Te comparto buscahogar.es, un buscador de inmuebles"
-            body={'https://www.buscahogar.es\n\nÉchale un ojo a este buscador de inmuebles, con tasación automática!'}
-          >
+          <EmailShareButton subject={`I am sharing your ${url} , ${title}`} body={`${description} ${url}`}>
             <EmailIcon size={32} round />
           </EmailShareButton>
         </MenuItem>
         {navigator.share && (
           <MenuItem onClick={handleNativeShare}>
-            <ShareIcon sx={{ marginRight: 1 }} /> Comparte a tus apps
+            <ShareIcon sx={{ marginRight: 1 }} /> Share via Native Apps
           </MenuItem>
         )}
       </Menu>
