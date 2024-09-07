@@ -26,8 +26,10 @@ blogsRouter.post('/:id/like', async (request, response) => {
   }
 
   const existingAction = await UserAction.findOne({ user: decodedToken.id, targetId: blog._id, targetType: 'Blog' })
-  if (existingAction) {
-    return response.status(400).json({ error: 'already voted' })
+  if (existingAction && existingAction.actionType === 'like') {
+    return response.status(400).json({ error: 'already voted: like' })
+  } else if (existingAction && existingAction.actionType === 'dislike') {
+    return response.status(400).json({ error: 'already voted: dislike' })
   }
 
   await UserAction.create({ user: decodedToken.id, targetId: blog._id, targetType: 'Blog', actionType: 'like' })
@@ -51,8 +53,10 @@ blogsRouter.post('/:id/dislike', async (request, response) => {
   }
 
   const existingAction = await UserAction.findOne({ user: decodedToken.id, targetId: blog._id, targetType: 'Blog' })
-  if (existingAction) {
-    return response.status(400).json({ error: 'already voted' })
+  if (existingAction && existingAction.actionType === 'like') {
+    return response.status(400).json({ error: 'already voted: like' })
+  } else if (existingAction && existingAction.actionType === 'dislike') {
+    return response.status(400).json({ error: 'already voted: dislike' })
   }
 
   await UserAction.create({ user: decodedToken.id, targetId: blog._id, targetType: 'Blog', actionType: 'dislike' })

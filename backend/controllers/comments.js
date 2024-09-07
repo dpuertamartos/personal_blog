@@ -27,8 +27,10 @@ commentsRouter.post('/:id/like', async (request, response) => {
   }
 
   const existingAction = await UserAction.findOne({ user: decodedToken.id, targetId: comment._id, targetType: 'Comment' })
-  if (existingAction) {
-    return response.status(400).json({ error: 'already voted' })
+  if (existingAction && existingAction.actionType === 'like') {
+    return response.status(400).json({ error: 'already voted: like' })
+  } else if (existingAction && existingAction.actionType === 'dislike') {
+    return response.status(400).json({ error: 'already voted: dislike' })
   }
 
   await UserAction.create({ user: decodedToken.id, targetId: comment._id, targetType: 'Comment', actionType: 'like' })
@@ -52,8 +54,10 @@ commentsRouter.post('/:id/dislike', async (request, response) => {
   }
 
   const existingAction = await UserAction.findOne({ user: decodedToken.id, targetId: comment._id, targetType: 'Comment' })
-  if (existingAction) {
-    return response.status(400).json({ error: 'already voted' })
+  if (existingAction && existingAction.actionType === 'like') {
+    return response.status(400).json({ error: 'already voted: like' })
+  } else if (existingAction && existingAction.actionType === 'dislike') {
+    return response.status(400).json({ error: 'already voted: dislike' })
   }
 
   await UserAction.create({ user: decodedToken.id, targetId: comment._id, targetType: 'Comment', actionType: 'dislike' })
@@ -104,7 +108,7 @@ commentsRouter.get('/all/:blogId', async (request, response) => {
   const blog = await Blog.findById(request.params.blogId)
     .populate({
       path: 'comments',
-      select: 'content date user',
+      select: 'content date user likeCount dislikeCount',
       populate: { path: 'user', select: 'email' }, // Populate user with email
     })
 
