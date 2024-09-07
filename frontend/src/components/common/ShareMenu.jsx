@@ -61,7 +61,7 @@ const ShareMenu = ({ title = 'IndieCo Blog', url = 'https://indieco.blog', descr
           </WhatsappShareButton>
         </MenuItem>
         <MenuItem>
-          <EmailShareButton subject={`I am sharing your ${url} , ${title}`} body={`${description} ${url}`}>
+          <EmailShareButton subject={`I am sharing you this blog that I found interesting: ${url} , ${title}`} body={`${description} ${url}`}>
             <EmailIcon size={32} round />
           </EmailShareButton>
         </MenuItem>

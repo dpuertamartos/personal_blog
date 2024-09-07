@@ -19,6 +19,7 @@ import Togglable from '../common/Togglable'
 import DOMPurify from 'dompurify'
 import { format } from 'date-fns'
 import EditBlogModal from './EditBlogModal'
+import ShareMenu from '../common/ShareMenu'
 
 const StyledCard = styled('div')(({ theme }) => ({
   padding: theme.spacing(4),
@@ -129,6 +130,13 @@ const Blog = ({ blog, user, setBlogs, setErrorMessage, handleLoginOpen }) => {
             <Box>
               <PersonIcon fontSize="small" sx={{ marginRight: 0.5 }} />
               <Typography variant="body2">By {blog.author}</Typography>
+            </Box>
+            <Box>
+              <ShareMenu
+                title={blog?.title || 'IndieCo Blog'}
+                url={`https://indieco.blog/blog/${blog?.id}`}
+                description={blog?.description || 'Read more about development and startups on this IndieCo Blog'}
+              />
             </Box>
 
             {/* Voting Buttons */}
