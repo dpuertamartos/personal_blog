@@ -8,6 +8,7 @@ import Contact from './views/Contact'
 import Profile from './views/Profile'
 import PrivacyPolicy from './views/PrivacyPolicy'
 import Home from './views/Home'
+import SingleBlog from './views/SingleBlog'
 import SmallScreenNavMenu from './components/common/DrawerSmallScreenNavigation'
 import TopMenu from './components/common/AppBar'
 import { useAuth } from './context/AuthContext'
@@ -83,6 +84,8 @@ const App = () => {
 
       <Box component="main" sx={{ flexGrow: 1 }}>
         <Routes>
+          <Route path="/blog/:id" element={<SingleBlog user={user} setErrorMessage={setErrorMessage} handleLoginOpen={handleLoginOpen} />} />
+
           <Route path="/contact" element={<Contact />} />
           <Route path="/privacy_policy" element={<PrivacyPolicy />} />
           <Route path="/profile" element={<Profile user={user} onLogout={logout} />} />
