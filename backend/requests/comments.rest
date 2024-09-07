@@ -12,7 +12,7 @@ Content-Type: application/json
 
 # Create a new comment (requires user token)
 POST http://localhost:3001/api/comments
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InVzZXJAdXNlci5jb20iLCJpZCI6IjY2ZDNhMGQ0YTgzZDQ3ZDgyOThkNzkwNCIsImlhdCI6MTcyNTIwODkyMH0.THWt8WabvdMPD5dBCVZqFh2UpUUSQsp7HJY5l1BfVfY
+Authorization: Bearer aJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InVzZXJAdXNlci5jb20iLCJpZCI6IjY2ZDNhMGQ0YTgzZDQ3ZDgyOThkNzkwNCIsImlhdCI6MTcyNTIwODkyMH0.THWt8WabvdMPD5dBCVZqFh2UpUUSQsp7HJY5l1BfVfY
 Content-Type: application/json
 
 {
@@ -37,3 +37,19 @@ Content-Type: application/json
 DELETE http://localhost:3001/api/comments/{{commentId}}
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InVzZXJAdXNlci5jb20iLCJpZCI6IjY2ZDNhMGQ0YTgzZDQ3ZDgyOThkNzkwNCIsImlhdCI6MTcyNTIwODkyMH0.THWt8WabvdMPD5dBCVZqFh2UpUUSQsp7HJY5l1BfVfY
 Content-Type: application/json
+
+
+###
+
+POST http://localhost:3001/api/comments/66dc363e7e4b03e85eeae9c6/like
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImFkbWluQGFkbWluLmNvbSIsInJvbGUiOiJhZG1pbiIsImlkIjoiNjZkYzM1ZjA3ZTRiMDNlODVlZWFlOWJiIiwiaWF0IjoxNzI1NzA3Nzk1LCJleHAiOjE3MjU3MjIxOTV9.thWZ5VTGMZHx8AUOTFdplXMdT7HIKe_BAUd8fnXBPCM
+Content-Type: application/json
+
+###
+
+POST http://localhost:3001/api/comments/66dc363e7e4b03e85eeae9c6/dislike
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImFkbWluQGFkbWluLmNvbSIsInJvbGUiOiJhZG1pbiIsImlkIjoiNjZkYzM1ZjA3ZTRiMDNlODVlZWFlOWJiIiwiaWF0IjoxNzI1NzA3Nzk1LCJleHAiOjE3MjU3MjIxOTV9.thWZ5VTGMZHx8AUOTFdplXMdT7HIKe_BAUd8fnXBPCM
+Content-Type: application/json
+
+
+

@@ -3,6 +3,7 @@ const Comment = require('../models/comment')
 const Blog = require('../models/blog')
 const User = require('../models/user') // Import User model
 const jwt = require('jsonwebtoken')
+const UserAction = require('../models/userAction')
 
 const getTokenFrom = request => {
   const authorization = request.get('authorization')
@@ -11,6 +12,56 @@ const getTokenFrom = request => {
   }
   return null
 }
+
+// Like a comment
+commentsRouter.post('/:id/like', async (request, response) => {
+  const token = getTokenFrom(request)
+  const decodedToken = jwt.verify(token, process.env.SECRET)
+  if (!decodedToken.id) {
+    return response.status(401).json({ error: 'token invalid' })
+  }
+
+  const comment = await Comment.findById(request.params.id)
+  if (!comment) {
+    return response.status(404).json({ error: 'comment not found' })
+  }
+
+  const existingAction = await UserAction.findOne({ user: decodedToken.id, targetId: comment._id, targetType: 'Comment' })
+  if (existingAction) {
+    return response.status(400).json({ error: 'already voted' })
+  }
+
+  await UserAction.create({ user: decodedToken.id, targetId: comment._id, targetType: 'Comment', actionType: 'like' })
+  comment.likeCount += 1
+  await comment.save()
+
+  response.status(200).json(comment)
+})
+
+// Dislike a comment
+commentsRouter.post('/:id/dislike', async (request, response) => {
+  const token = getTokenFrom(request)
+  const decodedToken = jwt.verify(token, process.env.SECRET)
+  if (!decodedToken.id) {
+    return response.status(401).json({ error: 'token invalid' })
+  }
+
+  const comment = await Comment.findById(request.params.id)
+  if (!comment) {
+    return response.status(404).json({ error: 'comment not found' })
+  }
+
+  const existingAction = await UserAction.findOne({ user: decodedToken.id, targetId: comment._id, targetType: 'Comment' })
+  if (existingAction) {
+    return response.status(400).json({ error: 'already voted' })
+  }
+
+  await UserAction.create({ user: decodedToken.id, targetId: comment._id, targetType: 'Comment', actionType: 'dislike' })
+  comment.dislikeCount += 1
+  await comment.save()
+
+  response.status(200).json(comment)
+})
 
 // Get a specific comment by ID
 commentsRouter.get('/:id', async (request, response) => {

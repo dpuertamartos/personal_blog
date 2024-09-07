@@ -1,6 +1,7 @@
 const blogsRouter = require('express').Router()
 const Blog = require('../models/blog')
 const User = require('../models/user')
+const UserAction = require('../models/userAction')
 const jwt = require('jsonwebtoken')
 
 const getTokenFrom = request => {
@@ -10,6 +11,56 @@ const getTokenFrom = request => {
   }
   return null
 }
+
+// Like a blog
+blogsRouter.post('/:id/like', async (request, response) => {
+  const token = getTokenFrom(request)
+  const decodedToken = jwt.verify(token, process.env.SECRET)
+  if (!decodedToken.id) {
+    return response.status(401).json({ error: 'token invalid' })
+  }
+
+  const blog = await Blog.findById(request.params.id)
+  if (!blog) {
+    return response.status(404).json({ error: 'blog not found' })
+  }
+
+  const existingAction = await UserAction.findOne({ user: decodedToken.id, targetId: blog._id, targetType: 'Blog' })
+  if (existingAction) {
+    return response.status(400).json({ error: 'already voted' })
+  }
+
+  await UserAction.create({ user: decodedToken.id, targetId: blog._id, targetType: 'Blog', actionType: 'like' })
+  blog.likeCount += 1
+  await blog.save()
+
+  response.status(200).json(blog)
+})
+
+// Dislike a blog
+blogsRouter.post('/:id/dislike', async (request, response) => {
+  const token = getTokenFrom(request)
+  const decodedToken = jwt.verify(token, process.env.SECRET)
+  if (!decodedToken.id) {
+    return response.status(401).json({ error: 'token invalid' })
+  }
+
+  const blog = await Blog.findById(request.params.id)
+  if (!blog) {
+    return response.status(404).json({ error: 'blog not found' })
+  }
+
+  const existingAction = await UserAction.findOne({ user: decodedToken.id, targetId: blog._id, targetType: 'Blog' })
+  if (existingAction) {
+    return response.status(400).json({ error: 'already voted' })
+  }
+
+  await UserAction.create({ user: decodedToken.id, targetId: blog._id, targetType: 'Blog', actionType: 'dislike' })
+  blog.dislikeCount += 1
+  await blog.save()
+
+  response.status(200).json(blog)
+})
 
 // Aggregated blog posts count by year and month
 blogsRouter.get('/stats', async (request, response) => {

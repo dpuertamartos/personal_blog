@@ -1,3 +1,4 @@
+// models/blog.js
 const mongoose = require('mongoose')
 
 const blogSchema = new mongoose.Schema({
@@ -29,6 +30,14 @@ const blogSchema = new mongoose.Schema({
       ref: 'Comment',
     },
   ],
+  likeCount: {
+    type: Number,
+    default: 0,
+  },
+  dislikeCount: {
+    type: Number,
+    default: 0,
+  },
 })
 
 blogSchema.set('toJSON', {

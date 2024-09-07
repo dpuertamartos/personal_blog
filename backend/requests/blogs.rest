@@ -40,3 +40,17 @@ Content-Type: application/json
 DELETE http://localhost:3001/api/blogs/66d498de9f15ecefa0611ec0
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImFkbWluQGFkbWluLmNvbSIsImlkIjoiNjZkM2E1ZTk0NDQzYThmYzliYjY3YjM0IiwiaWF0IjoxNzI1MTQ2NjE3fQ.q5x1ChjjybR9Chxyo-lurvDiZZuUiLEZrnL0i1Ajcps
 Content-Type: application/json
+
+###
+POST http://localhost:3001/api/blogs/66dc362e7e4b03e85eeae9c2/like
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImFkbWluQGFkbWluLmNvbSIsInJvbGUiOiJhZG1pbiIsImlkIjoiNjZkYzM1ZjA3ZTRiMDNlODVlZWFlOWJiIiwiaWF0IjoxNzI1NzA3Nzk1LCJleHAiOjE3MjU3MjIxOTV9.thWZ5VTGMZHx8AUOTFdplXMdT7HIKe_BAUd8fnXBPCM
+Content-Type: application/json
+
+
+###
+POST http://localhost:3001/api/blogs/66dc362e7e4b03e85eeae9c2/dislike
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImFkbWluQGFkbWluLmNvbSIsInJvbGUiOiJhZG1pbiIsImlkIjoiNjZkYzM1ZjA3ZTRiMDNlODVlZWFlOWJiIiwiaWF0IjoxNzI1NzA3Nzk1LCJleHAiOjE3MjU3MjIxOTV9.thWZ5VTGMZHx8AUOTFdplXMdT7HIKe_BAUd8fnXBPCM
+Content-Type: application/json
+
+
+
