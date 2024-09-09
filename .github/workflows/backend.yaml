@@ -57,9 +57,9 @@ jobs:
         git config --local user.email "41898282+github-actions[bot]@users.noreply.github.com"
         git config --local user.name "github-actions[bot]"
         git pull --ff-only 
-        cat kubernetes/deploy-backend.yaml
+        cat kubernetes/common/deploy-backend.yaml
         sed -i 's|dpuertamartos/personalblog-backend:[^\"]*|dpuertamartos/personalblog-backend:${{ env.TAG }}|g' ./kubernetes/common/deploy-backend.yaml
-        cat kubernetes/deploy-backend.yaml 
+        cat kubernetes/common/deploy-backend.yaml 
         git add ./kubernetes/common/deploy-backend.yaml
         git commit -m "Update backend image tag to ${{ env.TAG }}"
         
