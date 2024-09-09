@@ -2,7 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: nginx-dev-deployment
-  namespace: template
+  namespace: personalblog
 spec:
   replicas: 1  # Usually less than production for development
   selector:

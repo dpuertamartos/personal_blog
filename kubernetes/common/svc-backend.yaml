@@ -2,7 +2,7 @@ apiVersion: v1
 kind: Service
 metadata:
   name: backend-service
-  namespace: template
+  namespace: personalblog
 spec:
   type: ClusterIP
   selector:
@@ -11,17 +11,3 @@ spec:
     - name: http
       port: 3001
       targetPort: 3001
----
-apiVersion: v1
-kind: Service
-metadata:
-  name: python-microservice-service
-  namespace: template
-spec:
-  type: ClusterIP
-  selector:
-    app: python-microservice
-  ports:
-    - name: http
-      port: 5000
-      targetPort: 5000

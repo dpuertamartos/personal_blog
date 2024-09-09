@@ -2,7 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: backend-deployment
-  namespace: template
+  namespace: personalblog
   labels:
     app: backend
 spec:
@@ -17,7 +17,7 @@ spec:
     spec:
       containers:
       - name: backend
-        image: dpuertamartos/template-backend:latest
+        image: dpuertamartos/personalblog-backend:latest
         ports:
         - containerPort: 3001
         env:
@@ -36,3 +36,13 @@ spec:
             secretKeyRef:
               name: backend-secrets
               key: SECRET
+        - name: ADMIN_EMAIL
+          valueFrom:
+            secretKeyRef:
+              name: backend-secrets
+              key: ADMIN_EMAIL        
+        - name: ADMIN_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: backend-secrets
+              key: ADMIN_PASSWORD

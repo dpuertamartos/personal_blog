@@ -47,7 +47,7 @@ jobs:
         context: ./backend
         file: ./backend/Dockerfile
         push: true
-        tags: ${{ secrets.DOCKER_USERNAME }}/template-backend:${{ env.TAG }}
+        tags: ${{ secrets.DOCKER_USERNAME }}/personalblog-backend:${{ env.TAG }}
         platforms: linux/amd64,linux/arm64 
         cache-from: type=local,src=/tmp/.buildx-cache
         cache-to: type=local,dest=/tmp/.buildx-cache
@@ -58,7 +58,7 @@ jobs:
         git config --local user.name "github-actions[bot]"
         git pull --ff-only 
         cat kubernetes/deploy-backend.yaml
-        sed -i 's|dpuertamartos/template-backend:[^\"]*|dpuertamartos/template-backend:${{ env.TAG }}|g' ./kubernetes/common/deploy-backend.yaml
+        sed -i 's|dpuertamartos/personalblog-backend:[^\"]*|dpuertamartos/personalblog-backend:${{ env.TAG }}|g' ./kubernetes/common/deploy-backend.yaml
         cat kubernetes/deploy-backend.yaml 
         git add ./kubernetes/common/deploy-backend.yaml
         git commit -m "Update backend image tag to ${{ env.TAG }}"

@@ -1,12 +1,12 @@
 #!/bin/bash
 
 # Variables
-app_name="template-backend"
+app_name="personalblog-backend"
 username="dpuertamartos"
 tag="latest"
 
 # Set the target architectures
-architectures="linux/amd64"
+architectures="linux/amd64,linux/arm64"
 
 # Navigate to the directory where the Dockerfile is located
 cd "$(dirname "$0")"

@@ -46,7 +46,7 @@ jobs:
         context: ./frontend
         file: ./frontend/Dockerfile
         push: true
-        tags: ${{ secrets.DOCKER_USERNAME }}/template-frontend:${{ env.TAG }}
+        tags: ${{ secrets.DOCKER_USERNAME }}/personalblog-frontend:${{ env.TAG }}
         platforms: linux/amd64,linux/arm64
         cache-from: type=local,src=/tmp/.buildx-cache
         cache-to: type=local,dest=/tmp/.buildx-cache
@@ -57,7 +57,7 @@ jobs:
         git config --local user.name "github-actions[bot]"
         git pull --ff-only 
         cat kubernetes/deploy-frontend.yaml
-        sed -i 's|dpuertamartos/template-frontend:[^\"]*|dpuertamartos/template-frontend:${{ env.TAG }}|g' ./kubernetes/common/deploy-frontend.yaml
+        sed -i 's|dpuertamartos/personalblog-frontend:[^\"]*|dpuertamartos/personalblog-frontend:${{ env.TAG }}|g' ./kubernetes/common/deploy-frontend.yaml
         cat kubernetes/deploy-frontend.yaml
         git add ./kubernetes/common/deploy-frontend.yaml
         git commit -m "Update frontend image tag to ${{ env.TAG }}"
