@@ -6,10 +6,10 @@ const ContactButton = () => {
     <Button
       variant="outlined"
       startIcon={<MailOutlineIcon />}
-      href="mailto:data@gmail.com"
+      href="mailto:contact@indiecodev.com"
       sx={{ my: 2, textTransform: 'none' }}
     >
-          buscahogardata@gmail.com
+          contact@indiecodev.com
     </Button>
   )
 }
