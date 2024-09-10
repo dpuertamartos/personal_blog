@@ -59,7 +59,7 @@ const HeroContainer = ({ scrollToBlogs }) => {
         gutterBottom
       >
         <Typewriter
-          words={['Indie Co. Blog']}
+          words={['Indie Co. Dev']}
           loop={1}
           cursor
           cursorStyle=' >_'

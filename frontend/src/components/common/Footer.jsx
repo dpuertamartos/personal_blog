@@ -16,7 +16,7 @@ const Footer = () => {
       fontStyle: 'italic',
     }}>
       <Typography variant="body2">
-        IndieCo Blog by David Puerta @ {currentYear}
+        IndieCoDev - Blog by David P. @ {currentYear}
       </Typography>
     </Box>
   )

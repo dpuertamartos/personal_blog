@@ -6,7 +6,7 @@ import {
 } from 'react-share'
 import ShareIcon from '@mui/icons-material/Share'
 
-const ShareMenu = ({ title = 'IndieCo Blog', url = 'https://indieco.blog', description = 'Insights and stories from an indie developer' }) => {
+const ShareMenu = ({ title = 'IndieCoDev Blog', url = 'https://indieCoDev.com', description = 'Insights and stories from an indie developer' }) => {
   const [anchorEl, setAnchorEl] = useState(null)
 
   const handleShareClick = (event) => {

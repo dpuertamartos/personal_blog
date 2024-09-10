@@ -133,9 +133,9 @@ const Blog = ({ blog, user, setBlogs, setErrorMessage, handleLoginOpen }) => {
             </Box>
             <Box>
               <ShareMenu
-                title={blog?.title || 'IndieCo Blog'}
-                url={`https://indieco.blog/blog/${blog?.id}`}
-                description={blog?.description || 'Read more about development and startups on this IndieCo Blog'}
+                title={blog?.title || 'IndieCoDev Blog'}
+                url={`https://indiecodev.com/blog/${blog?.id}`}
+                description={blog?.description || 'Read more about development and startups on this IndieCoDev Blog'}
               />
             </Box>
 
