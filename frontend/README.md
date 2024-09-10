@@ -8,7 +8,7 @@ Currently, two official plugins are available:
 - [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
 
 
-# To configure menu items
+# To configure the menu items
 
 1. Modify routes in `src/App.jsx` with the appropiate react component. 
 2. Add elements to `src/config/menuConfig.js`
