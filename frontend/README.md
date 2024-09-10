@@ -10,7 +10,7 @@ Currently, two official plugins are available:
 
 # To configure the menu items
 
-1. Modify routes in `src/App.jsx` with the appropiate react component. 
+1. Modify routes in `src/App.jsx` with the appropiate react component
 2. Add elements to `src/config/menuConfig.js`
 
 If you want settings icon to open an Extra Drawer (configurable in menuConfig), you need pass appropiate props (see /notes route example)
