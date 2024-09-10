@@ -73,4 +73,4 @@ jobs:
       uses: steebchen/kubectl@v2.0.0
       with:
         command: apply -f ./kubernetes/common/deploy-backend.yaml
-        config: ${{ secrets.KUBE_CONFIG_DATA_YOUR_KUBERNETES }}
+        config: ${{ secrets.KUBE_CONFIG_DATA }}

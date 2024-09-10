@@ -66,12 +66,12 @@ jobs:
       uses: ad-m/github-push-action@main
       with:
         github_token: ${{ secrets.GITHUB_TOKEN }}
-        branch: 'main'  # Make sure to use the correct branch name
+        branch: 'main'
 
     - name: Deploy to Kubernetes
       uses: steebchen/kubectl@v2.0.0
       with:
         command: apply -f ./kubernetes/common/deploy-frontend.yaml
-        config: ${{ secrets.KUBE_CONFIG_DATA_YOUR_KUBERNETES }}
+        config: ${{ secrets.KUBE_CONFIG_DATA }}
 
 
