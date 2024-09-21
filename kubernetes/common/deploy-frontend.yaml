@@ -17,6 +17,6 @@ spec:
     spec:
       containers:
       - name: frontend
-        image: dpuertamartos/personalblog-frontend:latest
+        image: dpuertamartos/personalblog-frontend:20240910154820-acd16dd
         ports:
         - containerPort: 5173  # Replace with the actual port your frontend listens on
